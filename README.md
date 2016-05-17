@@ -12,3 +12,7 @@ Ho Yin Ho, Jason Shin, Javis Wu, Kah Soon Yap
 ## TO DO LIST
 * Acquire blueprints/floor plans of the building
 * Fire drill evacuation plans
+
+## Ideas about Directions
+* detect rooms by color then convert into 2D array
+* make js class with variables of what NSWE, but have to manual do rooms for each floor
