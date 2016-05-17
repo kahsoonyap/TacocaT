@@ -44,7 +44,7 @@ var moving = false;
 function slideMap(event){
     var keyCode = event.keyCode;
     switch (keyCode){
-    case 37:
+    case 39:
 	if (maps[maps.length - 1].x["baseVal"]["value"] != 0 && !moving){
 	    moving = true;
 	    transit =  setInterval(function(){ 
@@ -58,7 +58,7 @@ function slideMap(event){
 	    }, 1/100);
 	}
         break;
-    case 39:
+    case 37:
 	if (maps[0].x["baseVal"]["value"] != 0 && !moving){
 	    moving = true;
 	    transit =  setInterval(function(){ 
@@ -75,7 +75,7 @@ function slideMap(event){
     }
 };
 
-left.onclick =function(){
+right.onclick =function(){
     if (maps[maps.length - 1].x["baseVal"]["value"] != 0 && !moving){
 	moving = true;
 	transit =  setInterval(function(){ 
@@ -89,7 +89,7 @@ left.onclick =function(){
 	}, 1/100);
     }
 };
-right.onclick = function(){
+left.onclick = function(){
     if (maps[0].x["baseVal"]["value"] != 0 && !moving){
 	moving = true;
 	transit =  setInterval(function(){ 
