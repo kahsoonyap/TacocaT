@@ -58,53 +58,44 @@ var pathFinder = function(start, end){
     var counter = 0;
     var direction = "";
     var currentBlock = start;
-    //console.log("path finder");
     if (start.room < end.room){
-	//console.log("lower room");
 	direction = "east";
-	//console.log(direction);
     } else if (start.room > end.room){
 	direction = "west";
     } else {
-	//console.log("something is wrong if we get here");
+	console.log("something is wrong if we get here");
     }
     var changeDirection = function(){
-	if (currentBlock.north().room != "0" && currentBlock.north().type != 1 && direction != "south"){
+	if (currentBlock.north().type == 0 && direction != "north"){
 	    direction = "north";
-	} else if (currentBlock.south().room != "0" && currentBlock.south().type != 1 && direction != "north"){
+	} else if (currentBlock.south().type == 0 && direction != "south"){
 	    direction = "south";
-	} else if (currentBlock.east().room != "0" && currentBlock.east().type != 1 && direction != "west"){
+	} else if (currentBlock.east().type == 0 && direction != "east"){
 	    direction = "east";
-	} else if (currentBlock.west().room != "0" && currentBlock.west().type != 1 && direction != "east"){
+	} else if (currentBlock.west().type == 0 && direction != "west"){
 	    direction = "west";
 	} else { 
 	    console.log("weird dead end");
 	}
 	console.log(currentBlock.room);
     }
+    var checkRoom = function(dir){
+	if (currentBlock[dir]().room == end.room){
+	    console.log("room found");
+	    return
+	}
+    }
     var walkStraight = function(){
-	counter ++;
-	//console.log("walkStraight call");
-	//console.log(currentBlock[direction]().room != "0");
 	while (currentBlock[direction]().room != "0"){
-	    //console.log("start loop");
-	    //console.log(currentBlock[direction]());
 	    console.log(direction);
-	    if (currentBlock[direction]().type == 1){
-		if (currentBlock[direction]().room == end.room){
-		    console.log("room found");
-		    return
-		}
-	    }
-	    //console.log("restarting loop");
-	    //console.log(currentBlock[direction]());
+	    console.log(currentBlock[direction].room);
+	    checkRoom("north");
+	    checkRoom("south");
+	    checkRoom("east");
+	    checkRoom("west");
 	    currentBlock = currentBlock[direction]();
 	}
-	//console.log("finshed while loop");
 	changeDirection();
-	//console.log(direction);
-	//console.log("one cycle");
-	//console.log(currentBlock.room);
 	walkStraight();
     }
     walkStraight();
@@ -148,23 +139,4 @@ block3.setEast(block4);
 block4.setWest(block3);
 block3.setWest(block2);
 block2.setWest(block1);
-
-/*
-block3.setEast(block4);
-block4.setEast(block5);
-block5.setEast(block6);
-block6.setEast(block7);
-block7.setEast(block8);
-block8.setEast(block9);
-block9.setEast(block10);
-*/
-/*
-block10.setWest(block9);
-block9.setWest(block8);
-block8.setWest(block7);
-block7.setWest(block6);
-block6.setWest(block5);
-block5.setWest(block4);
-block4.setWest(block3);
-*/
 
