@@ -1,9 +1,0 @@
-var map = [];
-var canvas = document.getElementById("canvas");
-var context = canvas.getContext("2d");
-var image = new Image();
-image.src= "floor0.jpg";
-context.drawImage(image,0,0,500,500);
-
-console.log(context.getImageData(250,250,5,5);
-    

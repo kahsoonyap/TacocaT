@@ -18,3 +18,4 @@ Ho Yin Ho, Jason Shin, Javis Wu, Kah Soon Yap
 * make js class with variables of what NSWE, but have to manual do rooms for each floor
 * use mongo/sql
 * google authentication
+

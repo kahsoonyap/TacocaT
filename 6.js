@@ -82,21 +82,24 @@ var pathFinder = function(start, end){
     var checkRoom = function(dir){
 	if (currentBlock[dir]().room == end.room){
 	    console.log("room found");
+	    currentBlock = currentBlock[dir]();
+	    console.log("reached " + currentBlock.room);
 	    return
 	}
     }
     var walkStraight = function(){
 	while (currentBlock[direction]().room != "0"){
-	    console.log(direction);
-	    console.log(currentBlock[direction].room);
+	    console.log("directon: " + direction);
+	    console.log(currentBlock[direction]().room);
 	    checkRoom("north");
 	    checkRoom("south");
 	    checkRoom("east");
 	    checkRoom("west");
 	    currentBlock = currentBlock[direction]();
+	} if (currentBlock[direction]().room != end.room) {
+	    changeDirection();
+	    walkStraight();
 	}
-	changeDirection();
-	walkStraight();
     }
     walkStraight();
 }
