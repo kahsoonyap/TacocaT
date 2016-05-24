@@ -79,14 +79,6 @@ var pathFinder = function(start, end){
 	}
 	console.log(currentBlock.room);
     }
-    var checkRoom = function(dir){
-	if (currentBlock[dir]().room == end.room){
-	    console.log("room found");
-	    currentBlock = currentBlock[dir]();
-	    console.log("reached " + currentBlock.room);
-	    return;
-	}
-    }
     var walkStraight = function(){
 	var directions = ["north", "south", "east", "west"]
 	var ind = 0;
@@ -99,7 +91,7 @@ var pathFinder = function(start, end){
 		    if (currentBlock[directions[ind]]().room == end.room){
 			currentBlock = currentBlock[dir]();
 			console.log("reached " + currentBlock.room);
-			break;
+			return;
 		    }
 		}
 		currentBlock = currentBlock[direction]();
