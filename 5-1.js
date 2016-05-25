@@ -67,37 +67,43 @@ var pathFinder = function(start, end){
     if (start.room() == end.room()){
 	return "why you put the same room?";
     } else {
-	return roomChecker(start, end);
+	return roomChecker(start, end)[1];
     }
 }
 
-var roomChecker = function(curr, dest, path){
+var roomChecker = function(curr, dest){
     console.log(curr);
     if (curr.type == "wall"){
-	return false;
+	return [false, []];
     } else {
 	console.log(curr.room());
 	console.log(curr.type() == "room" );
 	if (curr.type() == "room" && curr.room() == dest.room()){
-	    return "Path found";
+	    console.log("path found");
+	    return [true, []];
 	} else if (!curr.checked()) {
 	    console.log("asd");
 	    curr.setChecked(true);
-	    if (roomChecker(curr.north(), dest, ){
-		return true;
-	    }
-	    if (roomChecker(curr.south(), dest, p = path.push("south"))){
-		return true;
-	    }
-	    if (roomChecker(curr.east(), dest), p = path.push("east"))){
-		return true;
-	    }
-	    if (roomChecker(curr.west(), dest), p = path.push("west"))){
-		return true;
+	    var n = roomChecker(curr.north(), dest);
+	    var s = roomChecker(curr.south(), dest);
+	    var e = roomChecker(curr.east(), dest);
+	    var w = roomChecker(curr.west(), dest);
+	    if (n[0]){
+		n[1].push("north");
+		return [true, n[1]];
+	    } else if (s[0]){
+		s[1].push("south");
+		return [true, s[1]];
+	    } else if (e[0]){
+		e[1].push("east");
+		return [true, e[1]];
+	    } else if (w[0]){
+		w[1].push("west");
+		return [true, w[1]];
 	    }
 	}
     }
-    return false;
+    return [false, []];
 }
 
 var block1 = block("block1", "hall");

@@ -71,7 +71,7 @@ var pathFinder = function(start, end){
     }
 }
 
-var roomChecker = function(curr, dest, path){
+var roomChecker = function(curr, dest){
     console.log(curr);
     if (curr.type == "wall"){
 	return false;
@@ -79,20 +79,15 @@ var roomChecker = function(curr, dest, path){
 	console.log(curr.room());
 	console.log(curr.type() == "room" );
 	if (curr.type() == "room" && curr.room() == dest.room()){
-	    return "Path found";
+	    console.log("path found");
+	    return true;
 	} else if (!curr.checked()) {
 	    console.log("asd");
 	    curr.setChecked(true);
-	    if (roomChecker(curr.north(), dest, ){
-		return true;
-	    }
-	    if (roomChecker(curr.south(), dest, p = path.push("south"))){
-		return true;
-	    }
-	    if (roomChecker(curr.east(), dest), p = path.push("east"))){
-		return true;
-	    }
-	    if (roomChecker(curr.west(), dest), p = path.push("west"))){
+	    if (roomChecker(curr.north(), dest) ||
+		roomChecker(curr.south(), dest) ||
+		roomChecker(curr.east(), dest) ||
+		roomChecker(curr.west(), dest)){
 		return true;
 	    }
 	}
