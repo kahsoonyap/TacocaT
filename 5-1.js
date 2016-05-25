@@ -67,22 +67,22 @@ var pathFinder = function(start, end){
     if (start.room() == end.room()){
 	return "why you put the same room?";
     } else {
-	return roomChecker(start, end)[1];
+	return translateToEnglish(roomChecker(start, end)[1]);
     }
 }
 
 var roomChecker = function(curr, dest){
-    console.log(curr);
+    //console.log(curr);
     if (curr.type == "wall"){
 	return [false, []];
     } else {
-	console.log(curr.room());
-	console.log(curr.type() == "room" );
+	//console.log(curr.room());
+	//console.log(curr.type() == "room" );
 	if (curr.type() == "room" && curr.room() == dest.room()){
 	    console.log("path found");
 	    return [true, []];
 	} else if (!curr.checked()) {
-	    console.log("asd");
+	    //console.log("asd");
 	    curr.setChecked(true);
 	    var n = roomChecker(curr.north(), dest);
 	    var s = roomChecker(curr.south(), dest);
@@ -104,6 +104,20 @@ var roomChecker = function(curr, dest){
 	}
     }
     return [false, []];
+}
+
+var translateToEnglish = function(directions){
+    var str = "";
+    str += "Head " + directions[0] + " and walk forwards\n";
+    for (var i = 1; i < directions.length; i ++){
+	if (directions[i] != directions[i-1]){
+	    str += "Turn " + directions[i] + " and walk forwards\n";
+	    if (i == directions.length - 1){
+		str += "You're at your room!";
+	    }
+	}
+    }
+    return str;
 }
 
 var block1 = block("block1", "hall");
