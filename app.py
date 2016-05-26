@@ -7,11 +7,11 @@ app = Flask(__name__)
 def login():
     return render_template("login.html")
 
-@app.route("/verify", methods=['GET','POST'])
-def verify(loggedIn):
-    print "word"
-    
-    return emaildomain
+@app.route("/verify")
+def verify():
+    print "it worked"
+    return render_template("login.html")
+
 if __name__ == "__main__":
     app.debug=True
     app.secret_key="sikewrongkey"
