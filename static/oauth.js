@@ -6,6 +6,9 @@
     console.log(verify);
     loggedIn = verify=="stuy.edu";
     console.log(loggedIn);
+    if (loggedIn){
+	window.location.replace("verify");
+    }
   }
   function signOut(){
     var auth2 = gapi.auth2.getAuthInstance();
