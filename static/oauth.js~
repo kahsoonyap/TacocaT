@@ -2,7 +2,7 @@
     var profile = googleUser.getBasicProfile();
     console.log(profile.getEmail());
     console.log(profile.getId());
-    var id_token = googleUser.getAuthResponse();
+    var id_token = googleUser.getAuthResponse().id_token;
     console.log(id_token);
   }
   function signOut(){
