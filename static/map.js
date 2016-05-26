@@ -15,7 +15,7 @@ var bMaps = [];
 var maps = [];
 for (var i = 0; i < 10; i++){
     var m = document.createElementNS("http://www.w3.org/2000/svg", "image");
-    m.setAttributeNS("http://www.w3.org/1999/xlink", "href","floor"+i+".jpg");
+    m.setAttributeNS("http://www.w3.org/1999/xlink", "href","..static/floor"+i+".jpg");
     m.setAttribute("height", height);
     m.setAttribute("width",width);
     m.setAttribute("x", i * (width + 100));
