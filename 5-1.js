@@ -1,3 +1,5 @@
+var button = document.getElementById("submit");
+
 var wall = {type: "wall"};
 
 var block = function(roomName, blockType){
@@ -119,6 +121,20 @@ var translateToEnglish = function(directions){
     }
     return str;
 }
+
+var returnDirections = function(e) {
+    var form = document.getElementById("directions");
+    var start =  form.elements.namedItem("start").value;
+    var end = form.elements.namedItem("end").value;
+    var stepsP = document.getElementById("steps");
+    var steps = pathFinder(start, end);
+    stepsP.innerHTML = steps;
+    console.log(start);
+    console.log(end);
+    
+};
+
+button.addEventListener('click', returnDirections);
 
 var block1 = block("block1", "hall");
 var block2 = block("block2", "hall");
