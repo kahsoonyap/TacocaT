@@ -109,13 +109,17 @@ var roomChecker = function(curr, dest){
 }
 
 var translateToEnglish = function(directions){
+    var n = 1;
     var str = "";
-    str += "Head " + directions[0] + " and walk forwards\n";
+    str += n + ". Head " + directions[0] + " and walk forwards<br>";
+    n+=1;
     for (var i = 1; i < directions.length; i ++){
 	if (directions[i] != directions[i-1]){
-	    str += "Turn " + directions[i] + " and walk forwards\n";
+	    str += n + ". Turn " + directions[i] + " and walk forwards<br>";
+	    n+=1;
 	    if (i == directions.length - 1){
-		str += "You're at your room!";
+		str += n + ". You're at your room!";
+		n+=1;
 	    }
 	}
     }
@@ -124,11 +128,17 @@ var translateToEnglish = function(directions){
 
 var returnDirections = function(e) {
     var form = document.getElementById("directions");
-    var start =  form.elements.namedItem("start").value;
-    var end = form.elements.namedItem("end").value;
+    var floorPic = document.getElementById("floor");
+    var start =  rooms[form.elements.namedItem("start").value];
+    var end = rooms[form.elements.namedItem("end").value];
+    var floor = start.room().substring(0,1);
+    console.log(start.room);
+    var floorPath = "static/floor" + floor + ".jpg";
     var stepsP = document.getElementById("steps");
     var steps = pathFinder(start, end);
     stepsP.innerHTML = steps;
+    floorPic.setAttribute("src", floorPath);
+    floorPic.setAttribute("height", "700");
     console.log(start);
     console.log(end);
     
@@ -145,6 +155,13 @@ var r601 = block("601", "room");
 var r602 = block("602", "room");
 var r603 = block("603", "room");
 var r640 = block("640", "room");
+
+var rooms = {}
+rooms["601"] = r601;
+rooms["602"] = r602;
+rooms["603"] = r603;
+rooms["640"] = r640;
+
 
 r601.setSouth(block1);
 block1.setNorth(r601);
