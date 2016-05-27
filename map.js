@@ -13,7 +13,7 @@ bigMap.width["baseVal"]["value"] = bW;
 var bMaps = [];
 
 var maps = [];
-for (var i = 0; i < 4; i++){
+for (var i = 0; i < 10; i++){
     var m = document.createElementNS("http://www.w3.org/2000/svg", "image");
     m.setAttributeNS("http://www.w3.org/1999/xlink", "href","floor"+i+".jpg");
     m.setAttribute("height", height);
@@ -103,7 +103,7 @@ left.onclick = function(){
 	}, 1/100);
     }
 };
-for (var i = 0; i < 4; i++){
+for (var i = 0; i < 10; i++){
     var mm = document.createElementNS("http://www.w3.org/2000/svg", "image");
     mm.setAttributeNS("http://www.w3.org/1999/xlink", "href", "floor"+i+".jpg");
     mm.setAttribute("height", bH);
@@ -116,7 +116,7 @@ for (var i = 0; i < 4; i++){
 	if( maps[mapNum].x["baseVal"]["value"] > 0 && !moving){
 	    moving = true;
 	    transit = setInterval(function(){
-		for (var j = 0; j <4; j++){
+		for (var j = 0; j <10; j++){
 		    maps[j].x["baseVal"]["value"] -= 2;
 		}
 		if (maps[mapNum].x["baseVal"]["value"] == 0){
@@ -128,7 +128,7 @@ for (var i = 0; i < 4; i++){
 	else if (maps[mapNum].x["baseVal"]["value"] < 0 && !moving){
 	    moving = true;
 	    transit = setInterval(function(){
-		for (var j = 0; j <4; j++){
+		for (var j = 0; j <10; j++){
 		    maps[j].x["baseVal"]["value"] += 2;
 		}
 		if (maps[mapNum].x["baseVal"]["value"] == 0){
