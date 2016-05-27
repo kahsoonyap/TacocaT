@@ -108,7 +108,9 @@ var roomChecker = function(curr, dest){
     return [false, []];
 }
 
+
 var translateToEnglish = function(directions){
+    directions.reverse();
     var n = 1;
     var str = "";
     str += n + ". Head " + directions[0] + " and walk forwards<br>";
@@ -117,10 +119,10 @@ var translateToEnglish = function(directions){
 	if (directions[i] != directions[i-1]){
 	    str += n + ". Turn " + directions[i] + " and walk forwards<br>";
 	    n+=1;
-	    if (i == directions.length - 1){
-		str += n + ". You're at your room!";
-		n+=1;
-	    }
+	}
+	if (i == directions.length - 1){
+	    str += n + ". You're at your room!";
+	    n+=1;
 	}
     }
     return str;
@@ -141,8 +143,18 @@ var returnDirections = function(e) {
     floorPic.setAttribute("height", "700");
     console.log(start);
     console.log(end);
-    
+    resetChecked(rooms);
+    resetChecked(blocks);
 };
+
+var resetChecked = function(data){
+    for (var key in data){
+	if (data.hasOwnProperty(key)){
+	    //console.log(data[key].checked());
+	    data[key].setChecked(false);
+	}
+    }
+}
 
 button.addEventListener('click', returnDirections);
 
@@ -161,7 +173,11 @@ rooms["601"] = r601;
 rooms["602"] = r602;
 rooms["603"] = r603;
 rooms["640"] = r640;
-
+var blocks = {}
+blocks["1"] = block1;
+blocks["2"] = block2;
+blocks["3"] = block3;
+blocks["4"] = block4;
 
 r601.setSouth(block1);
 block1.setNorth(r601);
