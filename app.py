@@ -5,11 +5,17 @@ app = Flask(__name__)
 
 @app.route("/",methods=['GET','POST'])
 def login():
-    return render_template("login.html")
-
-@app.route("/verify")
-def verify():
     return render_template("index.html")
+
+@app.route("/verified")
+def verified():
+    print "it worked"
+    return render_template("index.html", verified=True)
+
+@app.route("/denied")
+def denied():
+    return render_template("index.html", error="You do not have permission!")
+
 
 if __name__ == "__main__":
     app.debug=True
