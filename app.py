@@ -16,6 +16,7 @@ def verified():
 def denied():
     return render_template("index.html", error="You do not have permission!")
 
+
 if __name__ == "__main__":
     app.debug=True
     app.secret_key="sikewrongkey"
