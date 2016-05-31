@@ -78,47 +78,11 @@ var pathFinder = function(start, end){
 }
 
 var endDifferentFloor = function(start, end){
-    switch(start.room().substring(0,1)) {
-    case"1":
-	break;
-    case"2":
-	break;
-    case"3":
-	break;
-    case"4":
-	break;
-    case"5":
-	break;
-    case"6":
-	switch(end.room().substring(0,1)){
-	case"1":
-	    break;
-	case"2":
-	    break;
-	case"3":
-	    break;
-	case"4":
-	    break;
-	case"5":
-	    return roomChecker(rooms.stairA5, end)[1].concat(roomChecker(start, rooms.stairA6)[1]); 
-	case"7":
-	    break;
-	case"8":
-	    break;
-	case"9":
-	    break;
-	case"10":
-	    break;
-	}
-    case"7":
-	break;
-    case"8":
-	break;
-    case"9":
-	break;
-    case"10":
-	break;
-    }
+    var startFloor = start.room().substring(0,1);
+    var endFloor = end.room().substring(0,1);
+    var startBlock = rooms["stairA" + startFloor];
+    var endBlock = rooms["stairA" + endFloor];
+    return roomChecker(endBlock, end)[1].concat(roomChecker(start, startBlock)[1]);
 } 
 
 var roomChecker = function(curr, dest){
@@ -174,17 +138,22 @@ var translateToEnglish = function(directions){
 
 var returnDirections = function(e) {
     var form = document.getElementById("directions");
-    var floorPic = document.getElementById("floor");
+    var startFloorPic = document.getElementById("startFloor");
+    var endFloorPic = document.getElementById("endFloor");
     var start =  rooms[form.elements.namedItem("start").value];
     var end = rooms[form.elements.namedItem("end").value];
-    var floor = start.room().substring(0,1);
+    var startFloor = start.room().substring(0,1);
+    var endFloor = end.room().substring(0,1);
     console.log(start.room);
-    var floorPath = "static/floor" + floor + ".jpg";
+    var startFloorPath = "static/floor" + startFloor + ".jpg";
+    var endFloorPath = "static/floor" + endFloor + ".jpg";
     var stepsP = document.getElementById("steps");
     var steps = pathFinder(start, end);
     stepsP.innerHTML = steps;
-    floorPic.setAttribute("src", floorPath);
-    floorPic.setAttribute("height", "700");
+    startFloorPic.setAttribute("src", floorPath);
+    startFloorPic.setAttribute("height", "700");
+    endFloorPic.setAttribute("src", floorPath);
+    endFloorPic.setAttribute("height", "700");
     console.log(start);
     console.log(end);
     resetChecked(rooms);
