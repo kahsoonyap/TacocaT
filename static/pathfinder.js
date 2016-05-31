@@ -138,26 +138,26 @@ var translateToEnglish = function(directions){
 
 var returnDirections = function(e) {
     var form = document.getElementById("directions");
-    var startFloorPic = document.getElementById("startFloor");
-    var endFloorPic = document.getElementById("endFloor");
-    var start =  rooms[form.elements.namedItem("start").value.substring(0,1)][form.elements.namedItem("start").value];
-    var end = rooms[form.elements.namedItem("end").value.substring(0,1)][form.elements.namedItem("end").value];
+    var start =  rooms[form.elements.namedItem("start").value];
     var startFloor = start.room().substring(0,1);
-    var endFloor = end.room().substring(0,1);
-    console.log(start.room);
+    var startFloorPic = document.getElementById("startFloor");
     var startFloorPath = "static/floor" + startFloor + ".jpg";
+    startFloorPic.setAttribute("src", startFloorPath);
+    startFloorPic.setAttribute("height", "500");
+    var end = rooms[form.elements.namedItem("end").value];
+    var endFloor = end.room().substring(0,1);
+    var endFloorPic = document.getElementById("endFloor");
     var endFloorPath = "static/floor" + endFloor + ".jpg";
+    if (startFloor != endFloor) {
+	endFloorPic.setAttribute("src", endFloorPath);
+	endFloorPic.setAttribute("height", "500");
+	console.log(start.room);
+    } else {
+	endFloorPic.setAttribute("src", "");
+    }
     var stepsP = document.getElementById("steps");
     var steps = pathFinder(start, end);
     stepsP.innerHTML = steps;
-    /*
-    startFloorPic.setAttribute("src", floorPath);
-    startFloorPic.setAttribute("height", "700");
-    endFloorPic.setAttribute("src", floorPath);
-    endFloorPic.setAttribute("height", "700");
-    console.log(start);
-    console.log(end);
-    */
     resetChecked(rooms);
     resetChecked(blocks);
 };
