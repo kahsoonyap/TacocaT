@@ -69,22 +69,66 @@ var pathFinder = function(start, end){
     if (start.room() == end.room()){
 	return "why you put the same room?";
     } else {
-	return translateToEnglish(roomChecker(start, end)[1]);
+	if (start.room().substring(0,1) == end.room().substring(0,1)) {
+	    return translateToEnglish(roomChecker(start, end)[1]);
+	} else {
+	    return translateToEnglish(endDifferentFloor(start, end));
+	}
     }
 }
 
+var endDifferentFloor = function(start, end){
+    switch(start.room().substring(0,1)) {
+    case"1":
+	break;
+    case"2":
+	break;
+    case"3":
+	break;
+    case"4":
+	break;
+    case"5":
+	break;
+    case"6":
+	switch(end.room().substring(0,1)){
+	case"1":
+	    break;
+	case"2":
+	    break;
+	case"3":
+	    break;
+	case"4":
+	    break;
+	case"5":
+	    return roomChecker(rooms.stairA5, end)[1].concat(roomChecker(start, rooms.stairA6)[1]); 
+	case"7":
+	    break;
+	case"8":
+	    break;
+	case"9":
+	    break;
+	case"10":
+	    break;
+	}
+    case"7":
+	break;
+    case"8":
+	break;
+    case"9":
+	break;
+    case"10":
+	break;
+    }
+} 
+
 var roomChecker = function(curr, dest){
-    //console.log(curr);
     if (curr.type == "wall"){
 	return [false, []];
     } else {
-	//console.log(curr.room());
-	//console.log(curr.type() == "room" );
 	if (curr.type() == "room" && curr.room() == dest.room()){
 	    console.log("path found");
 	    return [true, []];
 	} else if (!curr.checked()) {
-	    //console.log("asd");
 	    curr.setChecked(true);
 	    var n = roomChecker(curr.north(), dest);
 	    var s = roomChecker(curr.south(), dest);
@@ -147,14 +191,13 @@ var returnDirections = function(e) {
     resetChecked(blocks);
 };
 
-var resetChecked = function(data){
+    var resetChecked = function(data){
     for (var key in data){
 	if (data.hasOwnProperty(key)){
-	    //console.log(data[key].checked());
 	    data[key].setChecked(false);
 	}
     }
-}
+    }
 
 button.addEventListener('click', returnDirections);
 
@@ -173,6 +216,9 @@ rooms["601"] = r601;
 rooms["602"] = r602;
 rooms["603"] = r603;
 rooms["640"] = r640;
+rooms["stairA6"] = block("stairA6", "room");
+rooms["stairA5"] = block("stairA5", "room");
+rooms["540"] = block("540", "room");
 var blocks = {}
 blocks["1"] = block1;
 blocks["2"] = block2;
@@ -188,6 +234,11 @@ r602.setSouth(block2);
 block2.setNorth(r602);
 r603.setWest(block4);
 block4.setEast(r603);
+
+block4.setNorth(rooms.stairA6);
+rooms.stairA6.setSouth(block4);
+rooms["540"].setEast(rooms.stairA5);
+rooms.stairA5.setWest(rooms["540"]);
 
 block1.setEast(block2);
 block2.setEast(block3);
