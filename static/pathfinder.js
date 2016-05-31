@@ -140,8 +140,8 @@ var returnDirections = function(e) {
     var form = document.getElementById("directions");
     var startFloorPic = document.getElementById("startFloor");
     var endFloorPic = document.getElementById("endFloor");
-    var start =  rooms[form.elements.namedItem("start").value];
-    var end = rooms[form.elements.namedItem("end").value];
+    var start =  rooms[form.elements.namedItem("start").value.substring(0,1)][form.elements.namedItem("start").value];
+    var end = rooms[form.elements.namedItem("end").value.substring(0,1)][form.elements.namedItem("end").value];
     var startFloor = start.room().substring(0,1);
     var endFloor = end.room().substring(0,1);
     console.log(start.room);
@@ -150,23 +150,27 @@ var returnDirections = function(e) {
     var stepsP = document.getElementById("steps");
     var steps = pathFinder(start, end);
     stepsP.innerHTML = steps;
+    /*
     startFloorPic.setAttribute("src", floorPath);
     startFloorPic.setAttribute("height", "700");
     endFloorPic.setAttribute("src", floorPath);
     endFloorPic.setAttribute("height", "700");
     console.log(start);
     console.log(end);
+    */
     resetChecked(rooms);
     resetChecked(blocks);
 };
 
-    var resetChecked = function(data){
+var resetChecked = function(data){
     for (var key in data){
 	if (data.hasOwnProperty(key)){
-	    data[key].setChecked(false);
+	    for (var key1 in data[key]){
+		data[key][key1].setChecked(false);
+	    }
 	}
     }
-    }
+}
 
 button.addEventListener('click', returnDirections);
 
@@ -179,20 +183,6 @@ var r601 = block("601", "room");
 var r602 = block("602", "room");
 var r603 = block("603", "room");
 var r640 = block("640", "room");
-
-var rooms = {}
-rooms["601"] = r601;
-rooms["602"] = r602;
-rooms["603"] = r603;
-rooms["640"] = r640;
-rooms["stairA6"] = block("stairA6", "room");
-rooms["stairA5"] = block("stairA5", "room");
-rooms["540"] = block("540", "room");
-var blocks = {}
-blocks["1"] = block1;
-blocks["2"] = block2;
-blocks["3"] = block3;
-blocks["4"] = block4;
 
 r601.setSouth(block1);
 block1.setNorth(r601);
@@ -216,3 +206,25 @@ block3.setEast(block4);
 block4.setWest(block3);
 block3.setWest(block2);
 block2.setWest(block1);
+
+
+var rooms = {};
+var rooms5 = {};
+var rooms6 = {};
+rooms6["601"] = r601;
+rooms6["602"] = r602;
+rooms6["603"] = r603;
+rooms6["640"] = r640;
+rooms6["stairA6"] = block("stairA6", "room");
+rooms5["stairA5"] = block("stairA5", "room");
+rooms5["540"] = block("540", "room");
+rooms["5"] = rooms5;
+rooms["6"] = rooms6;
+
+var blocks = {}
+var blocks6 = {}
+blocks6["1"] = block1;
+blocks6["2"] = block2;
+blocks6["3"] = block3;
+blocks6["4"] = block4;
+blocks["6"] = blocks6;
