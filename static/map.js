@@ -1,6 +1,13 @@
 var svg = document.getElementById("maps");
+
 var height = Math.floor(screen.height * .7 / 2) * 2;
 var width = Math.floor (screen.width * .5 / 2) * 2;
+/*var svg=d3.select("#maps")
+          .attr("width",width)
+          .attr("height",height)
+          .on("mousedown", function(){
+	      console.log(d3.mouse(this));
+	  });*/
 svg.height["baseVal"]["value"] = height;
 svg.width["baseVal"]["value"] = width;
 
@@ -54,8 +61,6 @@ bigMap.appendChild(left);
 bigMap.appendChild(right);
 
 
-var slideshow = d3.selectAll("image")[0].slice(1,10);
-
 
 
 var transit;
@@ -96,3 +101,16 @@ left.onclick = function(){
 };
 
 document.addEventListener("keydown", slideMap, false);
+
+coor = d3.select("maps")
+         .on("mousedown",function(){
+	     console.log(d3.mouse(this));
+	 })
+/*svg.addEventListener('mousedown', function(){
+    console.log(d3.mouse(this));
+})*/
+
+var svg2=d3.select("#maps")
+          .on("mousedown", function(){
+	      console.log(d3.mouse(this));
+	  });
