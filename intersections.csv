@@ -1,0 +1,9 @@
+id,floor,x,y,left,right,up,down
+0,1,45,250,null,2,null,1
+1,1,45,315,null,3,0,null
+2,1,155,255,0,null,null,3
+3,1,155,310,1,4,2,null
+4,1,255,315,3,null,5,null
+5,1,255,285,null,6,null,4
+6,1,370,280,5,7,null,null
+7,1,450,280,6,null,null,null
