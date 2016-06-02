@@ -15,3 +15,8 @@ var draw = function(){
 
 var button = document.getElementById("button");
 button.addEventListener("click", draw);
+
+var src = 215;
+var dest = 250;
+
+ 

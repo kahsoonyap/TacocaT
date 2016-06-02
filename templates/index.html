@@ -1,21 +1,27 @@
 <!DOCTYPE html>
 <html>
+<link rel="stylesheet" type="text/css" href="../static/logo.css">
 <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <meta name="google-signin-client_id" content="327411855984-u52p44erpp7fg7kna60j66lie7eou5jv.apps.googleusercontent.com">
-<body>
+<div class="webpage">
+  <body>
   <center>
-  <div id="signin" class="g-signin2" data-onsuccess="onSignIn"></div><br>
-  <a href="#" onclick="signOut();">Sign out</a><br>
-  {% if error %}
-  <font color="red" size=20>{{error}}</font>
-  {% endif %}
-  {% if verified %}
-  <svg id="maps" height="100" width ="100"style="border:1px solid;"> </svg>
-  <br>
-  <svg id="bigMap" height="100" width = "100" </svg>
-  {% endif %}
+    <div class="logo">
+      <h1> StuyMaps </h1>
+    </div>
+    <div id="signin" class="g-signin2" data-onsuccess="onSignIn"></div><br>
+    <a href="#" onclick="signOut();">Sign out</a><br>
+    {% if error %}
+    <font color="red" size=20>{{error}}</font>
+    {% endif %}
+    {% if verified %}
+    <svg id="maps" height="100" width ="100"style="border:1px solid;"> </svg>
+    <br>
+    <svg id="bigMap" height="100" width = "100"> </svg>
+    {% endif %}
   </center>
 </body>
+</div>
 <script src="https://apis.google.com/js/platform.js" async defer></script>
 <script src="../static/oauth.js"></script>
 <script src="../static/map.js"> </script>
