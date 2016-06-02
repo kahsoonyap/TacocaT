@@ -3,6 +3,7 @@
 <link rel="stylesheet" type="text/css" href="../static/logo.css">
 <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <meta name="google-signin-client_id" content="327411855984-u52p44erpp7fg7kna60j66lie7eou5jv.apps.googleusercontent.com">
+<script src="static/pathfinder.js"> </script>
 <div class="webpage">
   <body>
   <center>
@@ -18,6 +19,16 @@
     <svg id="maps" height="100" width ="100"style="border:1px solid;"> </svg>
     <br>
     <svg id="bigMap" height="100" width = "100"> </svg>
+    <form id="directions">
+      Starting Room:<br>
+      <input type="text" name="start"><br>
+      Destination<br>
+      <input type="text" name="end"><br>
+    </form>
+    <button id="submit" type="button">Submit</button><br>
+    <p id="steps"></p>
+    <img id="startFloor" src="">
+    <img id="endFloor" src="">
     {% endif %}
   </center>
 </body>
