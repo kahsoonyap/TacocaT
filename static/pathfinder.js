@@ -70,9 +70,9 @@ var pathFinder = function(start, end){
 	return "why you put the same room?";
     } else {
 	if (start.room().substring(0,1) == end.room().substring(0,1)) {
-	    return translateToEnglish(roomChecker(start, end)[1]);
+	    return translateToEnglish(roomChecker(start, end)[1], start, end);
 	} else {
-	    return translateToEnglish(endDifferentFloor(start, end));
+	    return translateToEnglish(endDifferentFloor(start, end), start, end);
 	}
     }
 }
@@ -125,18 +125,27 @@ var roomChecker = function(curr, dest){
 }
 
 
-var translateToEnglish = function(directions){
+var translateToEnglish = function(directions, start, end){
     directions.reverse();
+    start = parseInt(start.room()[0]);
+    end = parseInt(end.room()[0]);
+    numFlights = Math.abs(start - end);
+    if (numFlights == 1) {
+	numFlights = numFlights + " floor";
+    } else {
+	numFlights = numFlights + " floors";
+    }
+    console.log(directions);
     var n = 1;
     var str = "";
     str += n + ". Head " + directions[0] + " and walk forwards<br>";
     n+=1;
     for (var i = 1; i < directions.length; i ++){
 	if (directions[i] == "up") {
-	    str += n + ". Go up the stairs";
+	    str += n + ". Go " + numFlights + " up the stairs<br>";
 	    n+=1;
 	} else if (directions[i] == "down") {
-	    str += n + ". Go down the stairs";
+	    str += n + ". Go " + numFlights + " down the stairs<br>";
 	    n+=1;
 	}
 	else if (directions[i] != directions[i-1]){
@@ -149,6 +158,63 @@ var translateToEnglish = function(directions){
 	}
     }
     return str;
+}
+
+var directionsRelative = function(directions){
+    var dirRel;
+    var i;
+    for (i = 0; i < directions.length; i++) {
+	switch(directions[i]) {
+	case "north":
+	    switch(directions[i+1]) {
+	    case "north":
+		break;
+	    case "south":
+		break;
+	    case "east":
+		break;
+	    case "west";
+		break;
+	    }
+	    break;
+	case "north":
+	    switch(directions[i+1]) {
+	    case "north":
+		break;
+	    case "south":
+		break;
+	    case "east":
+		break;
+	    case "west";
+		break;
+	    }
+	    break;
+	case "east":
+	    switch(directions[i+1]) {
+	    case "north":
+		break;
+	    case "south":
+		break;
+	    case "east":
+		break;
+	    case "west";
+		break;
+	    }
+	    break;
+	case "south":
+	    switch(directions[i+1]) {
+	    case "north":
+		break;
+	    case "south":
+		break;
+	    case "east":
+		break;
+	    case "west";
+		break;
+	    }
+	    break;
+	}
+    }
 }
 
 var returnDirections = function(e) {

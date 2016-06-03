@@ -20,4 +20,4 @@ def fileReader(fileName, dic):
             s+= dic + '["' + k[0] + '"].setEast(' + dic + '["' + k[6][:-1] + '"]);\n'
     return s
 
-#print fileReader("rooms.csv", "floor6")
+print fileReader("rooms.csv", "floor6")
