@@ -1,0 +1,25 @@
+room ,floor,x,y
+101,1,480/width,315/height
+102,1,480/width,315/height
+103,1,480/width,315/height
+105,1,480/width,315/height
+107,1,450/width,310/height
+125,1,260/width,315/height
+129,1,235/width,315/height
+132,1,185/width,315/height
+133,1,105/width,315/height
+139,1,50/width,315/height
+150,1,155/width,250/height
+152,1,125/width,250/height
+154,1,85/width,250/height
+155,1,75/width,315/height
+170,1,285/width,290/height
+182,1,470/width,240/height
+184,1,470/width,240/height
+186,1,470/width,240/height
+pool,1,470/width,240/height
+11,1,40/width,255/height
+12,1,255/width,315/height
+13,1,350/width,295/height
+14,1,385/width,215/height
+15,1,480/width,310/height
