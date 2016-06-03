@@ -1,0 +1,60 @@
+var svg = document.getElementById("map");
+var height = Math.floor(screen.height * .7 / 2) * 2;
+var width = Math.floor (screen.width * .5 / 2) * 2;
+svg.height["baseVal"]["value"] = height;
+svg.width["baseVal"]["value"] = width;
+var map = document.createElementNS("http://www.w3.org/2000/svg", "image");
+map.setAttributeNS("http://www.w3.org/1999/xlink", "href","./static/floor1.jpg");
+map.setAttribute("height", height);
+map.setAttribute("width",width);
+map.setAttribute("x",0);
+map.setAttribute("y", 0);
+svg.appendChild(map);
+
+var getCoords = function getCoords(room){
+    var xy;
+    $.get("/coords", {room:room}, function(d){
+	xy = JSON.parse(d);
+    });
+    return xy;
+};
+
+var getIntersect = function getIntersect(room,direction){
+    var intersect;
+    $.get("/intersect" , {room:room, direction: direction}, function(d){
+	intersect = JSON.parse(d);
+    });
+    return intersect;
+};
+
+var getStairCase = function getStairCase(room){
+    var staircase;
+    $.get("/stairs", {room:room}, function(d){
+	staircase = JSON.parse(d);
+    });
+    return staircase;
+};
+
+var getIntersectXY = function getIntersectXY(intersect){
+    var xy =[];
+    $.get("/intersectXY", {intersect:intersect}, function(d){
+	var temp = JSON.parse(d);
+	xy.push(temp.x);
+	xy.push(temp.y);
+    });
+    return xy;
+};
+
+var getIntersectDirect = function getIntersectDirect(intersect, direct){
+    var intersection;
+    $.get("/intersectDirect", {intersect:intersect, direct:direct}, function(d){
+	var temp = JSON.parse(d);
+	intersection.push(temp.direct);
+    });
+    return intersection;
+};
+
+var drawDirect = function drawDirect(source, dest){
+    var sourceXY = getCoords(source);
+    var destXY = getCoords(dest);
+    
