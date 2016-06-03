@@ -20,6 +20,7 @@ def get_intersection(room, direction):
     conn.close()
     return intersection
 
-def get_staircase(room, direction):
-    conn = sqlite3
-    
+def get_staircase(room):
+    conn = sqlite3.connect(DB_NAME)
+    c = conn.cursor()
+    q = "SELECT staircase FROM rooms WHERE rooms.room=" + room + ";"    
