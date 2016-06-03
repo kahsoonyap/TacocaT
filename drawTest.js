@@ -4,7 +4,7 @@ var width = Math.floor (screen.width * .5 / 2) * 2;
 svg.height["baseVal"]["value"] = height;
 svg.width["baseVal"]["value"] = width;
 var map = document.createElementNS("http://www.w3.org/2000/svg", "image");
-map.setAttributeNS("http://www.w3.org/1999/xlink", "href","./static/floor1.jpg");
+map.setAttributeNS("http://www.w3.org/1999/xlink", "href","../static/floor1.jpg");
 map.setAttribute("height", height);
 map.setAttribute("width",width);
 map.setAttribute("x",0);
@@ -77,6 +77,7 @@ var getIntersectDirect = function getIntersectDirect(intersect, direct){
     return intersection;
 };
 
+/*
 var drawDirect = function drawDirect(source, dest){
     var sourceXY = getCoords(source);
     var destXY = getCoords(dest);
@@ -125,4 +126,4 @@ var drawDirect = function drawDirect(source, dest){
 	path.setAttribute("y1", sourceXY[1]);
 	path.setAttribute("x2", closetXY[0]);
 	path.setAttribute("y2", closetXY[1]);
-	
+	*/
