@@ -11,24 +11,43 @@ map.setAttribute("x",0);
 map.setAttribute("y", 0);
 svg.appendChild(map);
 var holder = $("#map");
-var xy;
-function coorSetup(room){
-    $.get("/coords", {room:""+room}, function(d){
-	xy = [parseFloat(JSON.parse(d)[0][0]), parseFloat(JSON.parse(d)[0][1])];
-	//console.log(xy);
-    });
-}
-var getCoords = function getCoords(room, store){
-    var xy;
-    /*$.get("/coords", {room:""+room}, function(d){
-	xy = [parseFloat(JSON.parse(d)[0][0]), parseFloat(JSON.parse(d)[0][1])];
-	console.log(xy);
-    });*/
-    //console.log(xy);
-    $.when(coorSetup(room)).done(function(){
+
+/*
+var coorPromise = new Promise(
+    function(resolve,reject){
+	
+);
+coorPromise.then({
+    function(){
 	return xy;
-   });
+    })
+    //fulfilledHandler:function(){return xy},
+    //errorHandler:function(){return xy}
+*/
+
+var getCoords = function getCoords(room){
+    var xy;
+    var coorPromise = new Promise(
+	function(resolve,reject){
+	    $.get("/coords", {room:""+room}, function(d){
+ 		xy=[parseFloat(JSON.parse(d)[0][0]), parseFloat(JSON.parse(d)[0][1])];
+	    });
+	    if (true){
+		console.log("im here");
+		resolve("Success!");
+	    }
+	    else{
+		reject("Failure!");
+	    }
+	});
+    coorPromise.then(function(){
+	console.log("then here");
+	return xy;
+    }).catch(function(){
+	return xy;
+    })
 };
+
 
 
 var getIntersect = function getIntersect(room,direction){
