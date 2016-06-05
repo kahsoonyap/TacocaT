@@ -130,6 +130,7 @@ var translateToEnglish = function(directions, start, end){
     start = parseInt(start.room()[0]);
     end = parseInt(end.room()[0]);
     numFlights = Math.abs(start - end);
+    relDirs = directionsRelative(directions);
     if (numFlights == 1) {
 	numFlights = numFlights + " floor";
     } else {
@@ -138,7 +139,7 @@ var translateToEnglish = function(directions, start, end){
     console.log(directions);
     var n = 1;
     var str = "";
-    str += n + ". Head " + directions[0] + " and walk forwards<br>";
+    str += n + ". Turn " + relDirs[0] + " after exiting your room and walk forwards<br>";
     n+=1;
     for (var i = 1; i < directions.length; i ++){
 	if (directions[i] == "up") {
@@ -149,7 +150,7 @@ var translateToEnglish = function(directions, start, end){
 	    n+=1;
 	}
 	else if (directions[i] != directions[i-1]){
-	    str += n + ". Turn " + directions[i] + " and walk forwards<br>";
+	    str += n + ". Turn " + relDirs[i-1] + " and walk forwards<br>";
 	    n+=1;
 	}
 	if (i == directions.length - 1){
@@ -161,60 +162,102 @@ var translateToEnglish = function(directions, start, end){
 }
 
 var directionsRelative = function(directions){
-    var dirRel;
+    var dirRel = [];
     var i;
-    for (i = 0; i < directions.length; i++) {
+    for (i = 0; i < directions.length - 1; i++) {
 	switch(directions[i]) {
 	case "north":
 	    switch(directions[i+1]) {
 	    case "north":
+		dirRel.push("dne");
 		break;
 	    case "south":
+		dirRel.push("dne");
 		break;
 	    case "east":
+		dirRel.push("right");
 		break;
-	    case "west";
+	    case "west":
+		dirRel.push("left");
 		break;
-	    }
+	    case "up":
+		dirRel.push("dne");
+		break;
+	    case "down":
+		dirRel.push("dne");
+		break;
 	    break;
-	case "north":
+	    }
+	case "south":
 	    switch(directions[i+1]) {
 	    case "north":
+		dirRel.push("dne");
 		break;
 	    case "south":
+		dirRel.push("dne");
 		break;
 	    case "east":
+		dirRel.push("left");
 		break;
-	    case "west";
+	    case "west":
+		dirRel.push("right");
+		break;
+	    case "up":
+		dirRel.push("dne");
+		break;
+	    case "down":
+		dirRel.push("dne");
 		break;
 	    }
 	    break;
 	case "east":
 	    switch(directions[i+1]) {
 	    case "north":
+		dirRel.push("left");
 		break;
 	    case "south":
+		dirRel.push("right");
 		break;
 	    case "east":
+		dirRel.push("dne");
 		break;
-	    case "west";
+	    case "west":
+		dirRel.push("dne");
+		break;
+	    case "up":
+		dirRel.push("dne");
+		break;
+	    case "down":
+		dirRel.push("dne");
 		break;
 	    }
 	    break;
-	case "south":
+	case "west":
 	    switch(directions[i+1]) {
 	    case "north":
+		dirRel.push("right");
 		break;
 	    case "south":
+		dirRel.push("left");
 		break;
 	    case "east":
+		dirRel.push("dne");
 		break;
-	    case "west";
+	    case "west":
+		dirRel.push("dne");
+		break;
+	    case "up":
+		dirRel.push("dne");
+		break;
+	    case "down":
+		dirRel.push("dne");
 		break;
 	    }
 	    break;
 	}
     }
+    console.log(dirRel);
+    return dirRel;
 }
 
 var returnDirections = function(e) {
