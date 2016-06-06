@@ -79,6 +79,7 @@ def findPath(source, dest):
     coords = [sourceXY]
     prevDirect = ""
     while(distance(sourceXY, destXY) > 0):
+        print source
         distToDest = distance(sourceXY, destXY)
         left = getIntersect(source, "left")
         if (left != "null"):
@@ -195,7 +196,8 @@ def findPath(source, dest):
                     sourceXY = destXY
                     return coords
         if (math.fabs(sourceXY[0] - destXY[0]) > math.fabs(sourceXY[1] - destXY[1])):
-            if (sourceXY[0] > destXY[0]):                
+            print str(source) + " here"
+            if (sourceXY[0] > destXY[0]):
                 if (left != "null" and prevDirect != "left"):
                     coords.append(leftXY)
                     source = left
@@ -212,13 +214,15 @@ def findPath(source, dest):
                     sourceXY = downXY
                     prevDirect =  "up"
                 else:
+                    print "stuff"
                     coords.append(rightXY)
                     source = right
                     sourceXY = rightXY
                     prevDirect = "left"
             else:
+                print str(source) + " " +  str(right)
                 if (right != "null" and prevDirect != "right"):
-                    coords.append(leftXY)
+                    coords.append(rightXY)
                     source = right
                     sourceXY = rightXY
                     prevDirect = "left"
@@ -280,5 +284,6 @@ def findPath(source, dest):
                     source = up
                     sourceXY = upXY
                     prevDirect = "down"
+        print coords
     return coords
     
