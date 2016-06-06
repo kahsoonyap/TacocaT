@@ -16,7 +16,7 @@ def verified():
 
 @app.route("/denied")
 def denied():
-    return render_template("index.html", error="You do not have permission!")
+    return render_template("index.html", error="You are not a Stuyvesant High School Student. Please Contact school personnel or offical for access")
 
 @app.route("/drawPath")
 def drawPath():
