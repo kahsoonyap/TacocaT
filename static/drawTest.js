@@ -30,15 +30,15 @@ var drawPath = function drawPath(source, dest){
 	}
 	console.log(fixed);
 	path=[]
-	for (i=0;i<fixed.length-1;i++){
+	for (i=0;i<fixed.length-1;i+=2){
 	    holder=[fixed[i],fixed[i+1]];
 	    path.push(holder);
 	}
 	console.log(path);
-		   
-			
+	i = 0;	   
 	for (i = 0; i < path.length - 1; i++){
 	    var line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+	    console.log(path[i] + path[i+1]);
 	    line.setAttribute("x1", path[i][0] * width);
 	    line.setAttribute("y1", path[i][1] * height);
 	    line.setAttribute("x2", path[i+1][0] * width);
@@ -47,6 +47,6 @@ var drawPath = function drawPath(source, dest){
 	    line.setAttribute("stroke-width", 3);
 	    svg.appendChild(line);
 	}
-    });
+    });   
 }
 
