@@ -1,6 +1,6 @@
 var button = document.getElementById("submit");
 
-var wall = {type: "wall"};
+var wall = {type: "wall", room: function(){return "a"}};
 
 var block = function(roomName, blockType){
     var room = roomName;
@@ -69,7 +69,7 @@ var pathFinder = function(start, end){
     if (start.room() == end.room()){
 	return "why you put the same room?";
     } else {
-	if (start.room().substring(0,1) == end.room().substring(0,1)) {
+	if (start.room().substring(0,2) == end.room().substring(0,2)) {
 	    return translateToEnglish(roomChecker(start, end)[1], start, end);
 	} else {
 	    return translateToEnglish(endDifferentFloor(start, end), start, end);
@@ -78,8 +78,8 @@ var pathFinder = function(start, end){
 }
 
 var endDifferentFloor = function(start, end){
-    var startFloor = start.room().substring(0,1);
-    var endFloor = end.room().substring(0,1);
+    var startFloor = start.room().substring(0,2);
+    var endFloor = end.room().substring(0,2);
     var startBlock = rooms["stairA" + startFloor];
     var endBlock = rooms["stairA" + endFloor];
     var upOrDown;
@@ -94,30 +94,34 @@ var endDifferentFloor = function(start, end){
 } 
 
 var roomChecker = function(curr, dest){
+    console.log(curr.room());
     if (curr.type == "wall"){
 	return [false, []];
     } else {
+	console.log(curr.checked());
 	if (curr.type() == "room" && curr.room() == dest.room()){
 	    console.log("path found");
 	    return [true, []];
-	} else if (!curr.checked()) {
-	    curr.setChecked(true);
-	    var n = roomChecker(curr.north(), dest);
-	    var s = roomChecker(curr.south(), dest);
-	    var e = roomChecker(curr.east(), dest);
-	    var w = roomChecker(curr.west(), dest);
-	    if (n[0]){
-		n[1].push("north");
-		return [true, n[1]];
-	    } else if (s[0]){
-		s[1].push("south");
-		return [true, s[1]];
-	    } else if (e[0]){
-		e[1].push("east");
-		return [true, e[1]];
-	    } else if (w[0]){
-		w[1].push("west");
-		return [true, w[1]];
+	} else {
+	    if (!curr.checked()) {
+		curr.setChecked(true);
+		var n = roomChecker(curr.north(), dest);
+		var s = roomChecker(curr.south(), dest);
+		var e = roomChecker(curr.east(), dest);
+		var w = roomChecker(curr.west(), dest);
+		if (n[0]){
+		    n[1].push("north");
+		    return [true, n[1]];
+		} else if (s[0]){
+		    s[1].push("south");
+		    return [true, s[1]];
+		} else if (e[0]){
+		    e[1].push("east");
+		    return [true, e[1]];
+		} else if (w[0]){
+		    w[1].push("west");
+		    return [true, w[1]];
+		}
 	    }
 	}
     }
@@ -262,14 +266,14 @@ var directionsRelative = function(directions){
 
 var returnDirections = function(e) {
     var form = document.getElementById("directions");
-    var start =  rooms[form.elements.namedItem("start").value];
-    var startFloor = start.room().substring(0,1);
+    var start =  floors[form.elements.namedItem("start").value.substring(0,2)][form.elements.namedItem("start").value];
+    var startFloor = start.room().substring(0,2);
     var startFloorPic = document.getElementById("startFloor");
     var startFloorPath = "static/floor" + startFloor + ".jpg";
     startFloorPic.setAttribute("src", startFloorPath);
     startFloorPic.setAttribute("height", "500");
-    var end = rooms[form.elements.namedItem("end").value];
-    var endFloor = end.room().substring(0,1);
+    var end = floors[form.elements.namedItem("end").value.substring(0,2)][form.elements.namedItem("end").value];
+    var endFloor = end.room().substring(0,2);
     var endFloorPic = document.getElementById("endFloor");
     var endFloorPath = "static/floor" + endFloor + ".jpg";
     if (startFloor != endFloor) {
@@ -284,14 +288,17 @@ var returnDirections = function(e) {
     stepsP.innerHTML = steps;
     //console.log(start);
     //console.log(end);
-    resetChecked(rooms);
-    resetChecked(blocks);
+    resetChecked(floors);
 };
 
 var resetChecked = function(data){
     for (var key in data){
 	if (data.hasOwnProperty(key)){
-	    data[key].setChecked(false);
+	    for (var key1 in data){
+		if (data.hasOwnProperty(key1)){
+		    data[key][key1].setChecked(false);
+		}
+	    }
 	}
     }
 }
@@ -344,3 +351,4 @@ block3.setEast(block4);
 block4.setWest(block3);
 block3.setWest(block2);
 block2.setWest(block1);
+

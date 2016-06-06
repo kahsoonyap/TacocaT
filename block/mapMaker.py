@@ -6,7 +6,6 @@ def fileReader(fileName, dic):
     b = []
     for i in a:
         b.append(i.split(","))
-    b = b[1:len(b)]
     for j in b:
         if (len(j[0]) == 3):
             s+= dic + '["0' + j[0] + '"] = block("0' + j[0] + '", "' + j[2] + '")\n'
@@ -56,12 +55,12 @@ def fileReader(fileName, dic):
                 if (len(k[0]) == 3):
                     s+= dic + '["0' + k[0] + '"].setEast(' + dic + '["' + k[6] + '"]);\n'
                 else:
-                    s+= dic + '["' + k[0] + '"].setEast(' + dic + '["' + k[6][:-2] + '"]);\n'
+                    s+= dic + '["' + k[0] + '"].setEast(' + dic + '["' + k[6][:-1] + '"]);\n'
     return s
 
 
 print 'floors = {}'
-for i in range(1, 11):
+for i in range(10, 11):
     print 'floor' + str(i) + ' = {};'
     print fileReader('floor' + str(i) + '.csv', 'floor' + str(i))
     print 'floors["' + str(i) + '"] = floor' + str(i) + ';'
