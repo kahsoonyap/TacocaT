@@ -19,3 +19,8 @@ Ho Yin Ho, Jason Shin, Javis Wu, Kah Soon Yap
 * use mongo/sql
 * google authentication
 
+## JAVIS AND HOYIN's TASKS FOR MON
+*map out 2nd floor then test
+*put in floors ifs
+*changing inputs of names(lib,pool) to rooms numbers when inputed
+* linking to routes
