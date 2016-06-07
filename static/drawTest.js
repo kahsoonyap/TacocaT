@@ -22,6 +22,7 @@ var loadFloor = function loadFloor(room){
 	    }
 	    else{
 		map.setAttributeNS("http://www.w3.org/1999/xlink", "href","../static/floor10.jpg");
+	    }
 	    map.setAttribute("height", height);
 	    map.setAttribute("width",width);
 	    map.setAttribute("x",0);
@@ -79,14 +80,16 @@ button.addEventListener("click", function(e){
 
 $("#source").keyup(function (e) {
     if (e.keyCode == 13) {
+	console.log("???");
 	var sourceRoom = sourceInput.value;
 	var destRoom = destInput.value;
 	loadFloor(sourceRoom);
 	drawPath(sourceRoom, destRoom);
     }
 });
-$("dest").keyup(function (e) {
+$("#dest").keyup(function (e) {
     if (e.keyCode == 13) {
+	console.log("???");
 	var sourceRoom = sourceInput.value;
 	var destRoom = destInput.value;
 	loadFloor(sourceRoom);
