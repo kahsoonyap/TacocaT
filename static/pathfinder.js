@@ -1,6 +1,6 @@
 var button = document.getElementById("submit");
 
-var wall = {type: "wall", room: function(){return "a"}};
+var wall = {type: function(){return "wall"}};
 
 var block = function(roomName, blockType){
     var room = roomName;
@@ -45,8 +45,8 @@ var block = function(roomName, blockType){
     var setWest = function(blk){
 	west = blk;
     }
-    var setChecked = function(bool){
-	checked = bool;
+    var setChecked = function(num){
+	checked = num;
     }
 
     return {
@@ -94,33 +94,37 @@ var endDifferentFloor = function(start, end){
 } 
 
 var roomChecker = function(curr, dest){
-    console.log(curr.room());
-    if (curr.type == "wall"){
-	return [false, []];
-    } else {
+    if (curr.type() != "wall") {
+	console.log(curr.room());
 	console.log(curr.checked());
-	if (curr.type() == "room" && curr.room() == dest.room()){
+	if (curr.room() == dest.room()){
 	    console.log("path found");
 	    return [true, []];
-	} else {
-	    if (!curr.checked()) {
-		curr.setChecked(true);
-		var n = roomChecker(curr.north(), dest);
+	} else if (!curr.checked()){
+	    curr.setChecked(true);
+	    var n = roomChecker(curr.north(), dest);
+	    if (n[0]) {
+		n[1].push("north");
+		return [true, n[1]];
+	    } else {
 		var s = roomChecker(curr.south(), dest);
-		var e = roomChecker(curr.east(), dest);
-		var w = roomChecker(curr.west(), dest);
-		if (n[0]){
-		    n[1].push("north");
-		    return [true, n[1]];
-		} else if (s[0]){
+		if (s[0]) {
 		    s[1].push("south");
 		    return [true, s[1]];
-		} else if (e[0]){
-		    e[1].push("east");
-		    return [true, e[1]];
-		} else if (w[0]){
-		    w[1].push("west");
-		    return [true, w[1]];
+		} else {
+		    var e = roomChecker(curr.east(), dest);
+		    if (e[0]) {
+			e[1].push("east");
+			return [true, e[1]];
+		    } else {
+			var w = roomChecker(curr.west(), dest);
+			if (w[0]) {
+			    w[1].push("west");
+			    return [true, w[1]];
+			} else {
+			    return [false, []];
+			}
+		    }
 		}
 	    }
 	}
