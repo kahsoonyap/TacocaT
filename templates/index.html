@@ -9,6 +9,7 @@
   <li><a href="/">Home</a></li>
   <li><a href="/search">Search</a></li>
   <li><a href="/directions">Directions</a></li>
+  <li><a href="#" onclick="signOut();">Log out</a></li>
 </ul>
 {% endif %}
 <div class="webpage" style="margin: 0;">
@@ -27,7 +28,6 @@
       <br>
       <br>
       <div id="signin" class="g-signin2" data-onsuccess="onSignIn"></div><br>
-      <button onclick="signOut();">Sign out</button>
       <br>
       {% if not verified %}
       <font color = "red" size=20> Please sign in to a stuy.edu email </font>

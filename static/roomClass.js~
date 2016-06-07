@@ -1,0 +1,70 @@
+var room = function(){
+    
+    var setRoom = function(room){
+	this.room = room;
+    }
+
+    var setIsRoom = function(isRoom){
+	this.isRoom = isRoom;
+    }
+    
+    var getCoords = function(){
+	if (this.isRoom){
+	    $.get("/coords", {room:""+this.room}, function(d){
+		this.x = parseFloat(JSON.parse(d)[0][0]);
+		this.y = parseFloat(JSON.parse(d)[0][1]);
+	    });
+	}
+	else{
+	    $.get("/intersectXY", {intersect:""+this.room}, function(d){
+		this.x = parseFloat(JSON.parse(d)[0][1]); 
+		this.y = parseFloat(JSON.parse(d)[0][1]);
+	    });
+	}
+    };
+
+    var getIntersect = function(direction){
+	if (this.isRoom){
+	    $.get("/intersect" , {room:"" + this.room, direction: direction}, function(d){
+		if (direction == "left"){
+		    this.left = JSON.parse(d)[0][0];
+		}
+		else if (direction == "right"){
+		    this.right = JSON.parse(d)[0][0];
+		}
+		else if (direction == "up"){
+		    this.up = JSON.parse(d)[0][0];
+		}
+		else {
+		    this.down = JSON.parse(d)[0][0];
+		}
+	    });
+	}
+	else {
+	    $.get("/intersectDirect", {intersect:this.room, direct:direct}, function(d){
+		if (direct == "left"){
+		    this.left = JSON.parse(d)[0];
+		}
+		else if (direct == "right"){
+		    this.right = JSON.parse(d)[0];
+		}
+		else if (direct == "up"){
+		    this.up = JSON.parse(d)[0];
+		}
+		else {
+		    this.down = JSON.parse(d)[0];
+		}
+	    });
+	}   
+    };
+    
+    return {room: 0,
+	    isRoom: true,
+	    x: 0,
+	    y: 0,
+	    left: 0,
+	    right: 0,
+	    up: 0,
+	    down: 0,
+	   };
+}
