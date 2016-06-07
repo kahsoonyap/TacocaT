@@ -13,12 +13,19 @@
     console.log("loggedin");
     $.get("/getLogin", function(d){
 	console.log(d);
+	console.log(loggedIn);
+	console.log(end);
 	if (d != "true"){
 	    if (loggedIn ){
 		window.location.replace("loggedin");
 	    }
+	    else if(loggedIn==false && end != "denied") {
+		console.log("javis");
+		window.location.replace("denied");
+	    }
 	}
 	else if(loggedIn==false && end != "denied") {
+	    console.log("javis");
 	    window.location.replace("denied");
 	}
     });
