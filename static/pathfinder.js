@@ -80,6 +80,8 @@ var pathFinder = function(start, end){
 var endDifferentFloor = function(start, end){
     var startFloor = start.room().substring(0,2);
     var endFloor = end.room().substring(0,2);
+    var startRoom = start.room().substring(2,4); 
+    var endRoom = end.room().substring(2,4); 	
     var startBlock = rooms["stairA" + startFloor];
     var endBlock = rooms["stairA" + endFloor];
     var upOrDown;
