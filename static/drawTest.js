@@ -1,17 +1,30 @@
-
 var svg = document.getElementById("map");
-var height = Math.floor(screen.height * .7 / 2) * 2;
-var width = Math.floor (screen.width * .5 / 2) * 2;
+var height = Math.floor(screen.height * .6 / 2) * 2;
+var width = Math.floor (screen.width * .44 / 2) * 2;
 svg.height["baseVal"]["value"] = height;
 svg.width["baseVal"]["value"] = width;
 var map = document.createElementNS("http://www.w3.org/2000/svg", "image");
-map.setAttributeNS("http://www.w3.org/1999/xlink", "href","./static/floor1.jpg");
 map.setAttribute("height", height);
 map.setAttribute("width",width);
 map.setAttribute("x",0);
 map.setAttribute("y", 0);
 svg.appendChild(map);
 
+var loadFloor = function loadFloor(room){
+    $.get("/getFloor", {room: room}, function(d){
+	while (svg.childNodes.length > 2){
+	    svg.removeChild(svg.lastChild);
+	}
+	if (d != "null"){
+	    d = d.substring(1,d.length-1)
+	    map.setAttributeNS("http://www.w3.org/1999/xlink", "href","../static/floor" + d.toString() + ".jpg");
+	    map.setAttribute("height", height);
+	    map.setAttribute("width",width);
+	    map.setAttribute("x",0);
+	    map.setAttribute("y", 0);
+	}
+    });
+}
 
 var drawPath = function drawPath(source, dest){
     $.get("/drawPath", {source:source, dest:dest}, function(d){
@@ -50,3 +63,29 @@ var drawPath = function drawPath(source, dest){
     });   
 }
 
+var sourceInput = document.getElementById("source");
+var destInput = document.getElementById("dest");
+var button = document.getElementById("button");
+button.addEventListener("click", function(e){
+    var sourceRoom = sourceInput.value;
+    var destRoom = destInput.value;
+    loadFloor(sourceRoom);
+    drawPath(sourceRoom, destRoom);
+});
+
+$("#source").keyup(function (e) {
+    if (e.keyCode == 13) {
+	var sourceRoom = sourceInput.value;
+	var destRoom = destInput.value;
+	loadFloor(sourceRoom);
+	drawPath(sourceRoom, destRoom);
+    }
+});
+$("dest").keyup(function (e) {
+    if (e.keyCode == 13) {
+	var sourceRoom = sourceInput.value;
+	var destRoom = destInput.value;
+	loadFloor(sourceRoom);
+	drawPath(sourceRoom, destRoom);
+    }
+});

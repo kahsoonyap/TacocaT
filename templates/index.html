@@ -1,38 +1,45 @@
 <!DOCTYPE html>
 <html>
-<link rel="stylesheet" type="text/css" href="../static/logo.css">
+<link rel="stylesheet" type="text/css" href="../static/stuyMaps.css">
 <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <meta name="google-signin-client_id" content="327411855984-u52p44erpp7fg7kna60j66lie7eou5jv.apps.googleusercontent.com">
 <script src="static/pathfinder.js"> </script>
-<div class="webpage">
-  <body>
+{% if verified %}
+<ul>
+  <li><a href="/">Home</a></li>
+  <li><a href="/search">Search</a></li>
+  <li><a href="/directions">Directions</a></li>
+</ul>
+{% endif %}
+<div class="webpage" style="margin: 0;">
   <center>
     <div class="logo">
       <h1> StuyMaps </h1>
     </div>
-    <div id="signin" class="g-signin2" data-onsuccess="onSignIn"></div><br>
-    <a href="#" onclick="signOut();">Sign out</a><br>
-    {% if error %}
-    <font color="red" size=20>{{error}}</font>
-    {% endif %}
-    {% if verified %}
-    <svg id="maps" height="100" width ="100"style="border:1px solid;"> </svg>
-    <br>
-    <svg id="bigMap" height="100" width = "100"> </svg>
-    <form id="directions">
-      Starting Room:<br>
-      <input type="text" name="start"><br>
-      Destination<br>
-      <input type="text" name="end"><br>
-    </form>
-    <button id="submit" type="button">Submit</button><br>
-    <p id="steps"></p>
-    <img id="startFloor" src="">
-    <img id="endFloor" src="">
-    {% endif %}
   </center>
-</body>
+  <body>
+    <center>
+      {% if verified %}
+      <svg id="maps" height="100" width ="100"style="border:1px solid;"> </svg>
+      <br>
+      <svg id="bigMap" height="100" width = "100"> </svg>
+      {% endif %}
+      <br>
+      <br>
+      <div id="signin" class="g-signin2" data-onsuccess="onSignIn"></div><br>
+      <button onclick="signOut();">Sign out</button>
+      <br>
+      {% if not verified %}
+      <font color = "red" size=20> Please sign in to a stuy.edu email </font>
+      <br>
+      {% endif %}
+      {% if error %}
+      <font color="red" size=20>{{error}}</font>
+      {% endif %}
+    </center>
+  </body>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 <script src="https://apis.google.com/js/platform.js" async defer></script>
 <script src="../static/oauth.js"></script>
 <script src="../static/map.js"> </script>

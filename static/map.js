@@ -1,7 +1,7 @@
 var svg = document.getElementById("maps");
 
-var height = Math.floor(screen.height * .7 / 2) * 2;
-var width = Math.floor (screen.width * .5 / 2) * 2;
+var height = Math.floor(screen.height * .6 / 2) * 2;
+var width = Math.floor (screen.width * .44 / 2) * 2;
 /*var svg=d3.select("#maps")
           .attr("width",width)
           .attr("height",height)

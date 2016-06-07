@@ -1,11 +1,42 @@
 <!DOCTYPE html>
 <html>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-  <body>
+  <link rel="stylesheet" type="text/css" href="../static/stuyMaps.css">
+  <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <meta name="google-signin-client_id" content="327411855984-u52p44erpp7fg7kna60j66lie7eou5jv.apps.googleusercontent.com">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/search">Search</a></li>
+    <li><a href="/directions">Directions</a></li>
+  </ul>
+  <div class="webpage" style="margin: 0;">
     <center>
-      <svg id="map" width="100" height="100"> </canvas>
+      <div class="logo">
+	<h1> StuyMaps </h1>
+      </div>
     </center>
-  </body>
-<script src="../static/roomClass.js"> </script>
-<script src="../static/drawTest.js"> </script>
+    <body>
+      <center>
+	<input type="text" id="source" placeholder="Start" class="search"> </input>
+	<br>
+	<br>
+	<input type="text" id="dest" placeholder="Destination" class="search"> </input>
+	<br>
+	<br>
+	<button id="button" class="button"> Search</button>
+	<br>
+	<svg id="map" width="100" height="100"> </svg>
+      </center>
+    </body>
+  </div>
+  <footer>
+    <br>
+    <br>
+    <div id="signin" class="g-signin2" data-onsuccess="onSignIn"></div>
+    <br>
+    <button onclick="signOut();">Sign out</button>
+  </footer>
+  <script src="../static/oauth.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script src="../static/drawTest.js"> </script>
 </html>

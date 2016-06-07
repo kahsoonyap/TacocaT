@@ -10,17 +10,23 @@
     check=address.split("/");
     end=check[check.length-1]
     console.log(end);
-    if (loggedIn &&  end !== "verified"){
-	window.location.replace("verified");
-    }
-    else if(loggedIn==false && end !== "denied") {
-	window.location.replace("denied");
-    }
-  }
-  function signOut(){
+    console.log("loggedin");
+    $.get("/getLogin", function(d){
+	console.log(d);
+	if (d != "true"){
+	    if (loggedIn ){
+		window.location.replace("loggedin");
+	    }
+	}
+	else if(loggedIn==false && end != "denied") {
+	    window.location.replace("denied");
+	}
+    });
+ }
+function signOut(){
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
        console.log('signed out');
     });
-    window.location.replace("/");
+    window.location.replace("logout");
   }

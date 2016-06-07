@@ -10,6 +10,17 @@ def getXY(room):
     else:
         return getRoomXY(room)
 
+def getFloorOf(room):
+    conn = sqlite3.connect(DB_NAME)
+    c = conn.cursor()
+    q = "SELECT floor FROM rooms where rooms.room='" + str(room) + "';"
+    floor = c.execute(q).fetchall()
+    conn.commit()
+    conn.close()
+    floor = str(list(floor[0])[0])
+    print floor
+    return floor
+    
 
 def getRoomXY(room):
     conn = sqlite3.connect(DB_NAME)
