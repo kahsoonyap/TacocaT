@@ -301,7 +301,7 @@ var resetChecked = function(data){
     for (var key in data){
 	if (data.hasOwnProperty(key)){
 	    for (var key1 in data[key]){
-		if (data.hasOwnProperty(key1)){
+		if (data[key].hasOwnProperty(key1)){
 		    data[key][key1].setChecked(false);
 		}
 	    }
