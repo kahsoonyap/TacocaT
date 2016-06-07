@@ -14,7 +14,7 @@ var loadFloor = function loadFloor(room){
 	if (d != "null"){
 	    d = d.substring(1,d.length-1)
 	    if (d != "10"){
-		map.setAttributeNS("http://www.w3.org/1999/xlink", "href","../static/floor" + d.toString() + ".jpg");
+		map.setAttributeNS("http://www.w3.org/1999/xlink", "href","../static/floor0" + d.toString() + ".jpg");
 	    }
 	    else{
 		map.setAttributeNS("http://www.w3.org/1999/xlink", "href","../static/floor10.jpg");
