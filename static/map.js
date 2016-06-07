@@ -20,7 +20,7 @@ bigMap.width["baseVal"]["value"] = bW;
 var bMaps = [];
 
 var map = document.createElementNS("http://www.w3.org/2000/svg", "image");
-map.setAttributeNS("http://www.w3.org/1999/xlink", "href","../static/floor1.jpg");
+map.setAttributeNS("http://www.w3.org/1999/xlink", "href","../static/floor01.jpg");
 map.setAttribute("height", height);
 map.setAttribute("width",width);
 map.setAttribute("x",0);
@@ -30,7 +30,11 @@ svg.appendChild(map);
 
 for (var i = 0; i < 10; i++){
     var mm = document.createElementNS("http://www.w3.org/2000/svg", "image");
-    mm.setAttributeNS("http://www.w3.org/1999/xlink", "href", "../static/floor"+(i+1)+".jpg");
+    if (i != 9){
+	mm.setAttributeNS("http://www.w3.org/1999/xlink", "href", "../static/floor0"+(i+1)+".jpg");
+    }
+    else {
+	mm.setAttributeNS("http://www.w3.org/1999/xlink", "href", "../static/floor10.jpg");
     mm.setAttribute("height", bH);
     mm.setAttribute("width",bW/4);
     mm.setAttribute("x", i * bW/4);

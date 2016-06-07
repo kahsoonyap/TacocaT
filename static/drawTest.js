@@ -17,7 +17,11 @@ var loadFloor = function loadFloor(room){
 	}
 	if (d != "null"){
 	    d = d.substring(1,d.length-1)
-	    map.setAttributeNS("http://www.w3.org/1999/xlink", "href","../static/floor" + d.toString() + ".jpg");
+	    if (d != 10){
+		map.setAttributeNS("http://www.w3.org/1999/xlink", "href","../static/floor0" + d.toString() + ".jpg");
+	    }
+	    else{
+		map.setAttributeNS("http://www.w3.org/1999/xlink", "href","../static/floor10.jpg");
 	    map.setAttribute("height", height);
 	    map.setAttribute("width",width);
 	    map.setAttribute("x",0);
