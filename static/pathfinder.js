@@ -115,37 +115,41 @@ var roomChecker = function(curr, dest){
 	console.log(curr.checked());
 	if (curr.room() == dest.room()){
 	    console.log("path found");
-	    return [true, []];
+	    return [true, [], []];
 	} else if (!curr.checked()){
 	    curr.setChecked(true);
 	    var n = roomChecker(curr.north(), dest);
 	    if (n[0]) {
 		n[1].push("north");
-		return [true, n[1]];
+		n[2].push(curr);
+		return [true, n[1], n[2]];
 	    } else {
 		var s = roomChecker(curr.south(), dest);
 		if (s[0]) {
 		    s[1].push("south");
-		    return [true, s[1]];
+		    s[2].push(curr);
+		    return [true, s[1], s[2]];
 		} else {
 		    var e = roomChecker(curr.east(), dest);
 		    if (e[0]) {
 			e[1].push("east");
-			return [true, e[1]];
+			e[2].push(curr)
+			return [true, e[1], e[2]];
 		    } else {
 			var w = roomChecker(curr.west(), dest);
 			if (w[0]) {
 			    w[1].push("west");
-			    return [true, w[1]];
+			    w[2].push(curr);
+			    return [true, w[1], w[2]];
 			} else {
-			    return [false, []];
+			    return [false, [], []];
 			}
 		    }
 		}
 	    }
 	}
     }
-    return [false, []];
+    return [false, [], []];
 }
 
 
