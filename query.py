@@ -4,11 +4,11 @@ import json
 
 DB_NAME = "floorPlans.db"
 
-def getXY(room):
+def getXY(room ,floor):
     if (room < 100):
-        return getIntersectXY(room)
+        return getIntersectXY(room, floor)
     else:
-        return getRoomXY(room)
+        return getRoomXY(room, floor)
 
 def getFloorOf(room):
     conn = sqlite3.connect(DB_NAME)
@@ -17,52 +17,64 @@ def getFloorOf(room):
     floor = c.execute(q).fetchall()
     conn.commit()
     conn.close()
-    floor = str(list(floor[0])[0])
-    print floor
-    return floor
+    if not floor:
+        return "null"
+    else:
+        floor = str(list(floor[0])[0])
+        print floor + " " + str(room)
+        return floor
     
 
-def getRoomXY(room):
+def getRoomXY(room, floor):
     conn = sqlite3.connect(DB_NAME)
     c = conn.cursor()
-    q = "SELECT x,y FROM rooms WHERE rooms.room='" + str(room) +"';"
+    q = "SELECT x,y FROM rooms WHERE rooms.room='" + str(room) +"' and rooms.floor='" + str(floor) + "';"
     xy = c.execute(q).fetchall()
     conn.commit()
     conn.close()
-    xy = list(xy[0])
-    xy = [float(xy[0]) , float(xy[1])]
-    return xy
-
-def getIntersect(room, direction):
-    if (room < 100):
-        return getIntersectDirect(room, direction)
+    if not xy:
+        return "null"
     else:
-        return getRoomIntersect(room, direction)
+        xy = list(xy[0])
+        xy = [float(xy[0]) , float(xy[1])]
+        return xy
+
+def getIntersect(room, direction, floor):
+    if (room < 100):
+        return getIntersectDirect(room, direction, floor)
+    else:
+        return getRoomIntersect(room, direction, floor)
 
 
-def getRoomIntersect(room, direction):
+def getRoomIntersect(room, direction, floor):
     conn = sqlite3.connect(DB_NAME)
     c = conn.cursor()
-    q = "SELECT " + direction + " FROM rooms WHERE rooms.room='" + str(room) + "';"
+    q = "SELECT " + direction + " FROM rooms WHERE rooms.room='" + str(room) + "' and rooms.floor='" + str(floor) + "';"
     intersection = c.execute(q).fetchall()
     conn.commit()
     conn.close()
-    intersection = str(list(intersection[0])[0])
-    return intersection
+    if not intersection:
+        return "null"
+    else:
+        intersection = str(list(intersection[0])[0])
+        return intersection
 
-def getStaircase(room):
+def getStaircases(floor):
     conn = sqlite3.connect(DB_NAME)
     c = conn.cursor()
-    q = "SELECT staircase FROM rooms where rooms.room=" + str(room) + ";"
+    q = "SELECT room FROM rooms where CAST(rooms.room as 'decimal') >= 1100 and rooms.floor='" +  str(floor) + "';"
     staircase = c.execute(q).fetchall()
+    print staircase
     conn.commit()
     conn.close()
-    return staircase
+    fixed = [int(list(a)[0]) for a in staircase]
+    print fixed
+    return fixed
 
-def getIntersectXY(intersect):
+def getIntersectXY(intersect, floor):
     conn = sqlite3.connect(DB_NAME)
     c = conn.cursor()
-    q = "SELECT x,y FROM intersections where intersections.id='" + str(intersect) + "';"
+    q = "SELECT x,y FROM intersections where intersections.id='" + str(intersect) + "' and intersections.floor='" + str(floor) + "';"
     xy = c.execute(q).fetchall()
     conn.commit()
     conn.close()
@@ -70,10 +82,10 @@ def getIntersectXY(intersect):
     xy = [float(xy[0]) , float(xy[1])]
     return xy
 
-def getIntersectDirect(intersect, direct):
+def getIntersectDirect(intersect, direct, floor):
     conn = sqlite3.connect(DB_NAME)
     c = conn.cursor()
-    q = "SELECT " + direct + " FROM intersections where intersections.id='" + str(intersect) + "';"
+    q = "SELECT " + direct + " FROM intersections where intersections.id='" + str(intersect) + "' and intersections.floor='"+ str(floor) + "';"
     direction = c.execute(q).fetchall()
     conn.commit()
     conn.close()
@@ -84,30 +96,52 @@ def distance(x,y):
     return math.sqrt( math.pow((x[0]-y[0]),2) + math.pow((x[1]-y[1]),2))
 
 def findPath(source, dest):
-    sourceXY = getXY(source)
-    destXY = getXY(dest)
+    source = int(source)
+    dest = int(dest)
+    destFloor = getFloorOf(dest)
+    print type(source)
+    if (source >= 1100):
+        sourceFloor = destFloor
+    else:
+        sourceFloor = getFloorOf(source)
+    sourceXY = getXY(source,sourceFloor)
+    print str(sourceXY) + " here"
+    destXY = getXY(dest,destFloor)
+    if sourceFloor == "null" or destFloor == "null":
+        return "Invalid rooms"
+    if sourceFloor != destFloor:
+        destStairs = getStaircases(destFloor)
+        sourceStairs = getStaircases(sourceFloor)
+        allStairs = [x for x in destStairs if x in sourceStairs]
+        stairXYSource = [getXY(x,sourceFloor) for x in allStairs]
+        stairXYDest = [getXY(x, destFloor) for x in allStairs]
+        distances = []
+        for i in range(0, len(stairXYSource)):
+            distances.append(distance(sourceXY, stairXYSource[i]) + distance(destXY, stairXYDest[i]))
+        bestStaircase = allStairs[distances.index(min(distances))]
+        return findPath(bestStaircase,source) + [[-1, int(destFloor)]] + findPath(bestStaircase, dest) 
     distToDest = distance(sourceXY, destXY)
     coords = [sourceXY]
     prevDirect = ""
     while(distance(sourceXY, destXY) > 0):
         print source
         distToDest = distance(sourceXY, destXY)
-        left = getIntersect(source, "left")
+        left = getIntersect(source, "left",sourceFloor)
         if (left != "null"):
             left = int(left)
-            leftXY = getXY(left)
-        right = getIntersect(source, "right")
+            leftXY = getXY(left,sourceFloor)
+        right = getIntersect(source, "right",sourceFloor)
         if (right != "null"):
             right = int(right)
-            rightXY = getXY(right)
-        up = getIntersect(source, "up")
+            rightXY = getXY(right,sourceFloor)
+        up = getIntersect(source, "up",sourceFloor)
         if (up != "null"):
             up = int(up)
-            upXY = getXY(up)
-        down = getIntersect(source, "down")
+            upXY = getXY(up,sourceFloor)
+        down = getIntersect(source, "down",sourceFloor)
         if (down != "null"):
             down = int(down)
-            downXY = getXY(down)
+            downXY = getXY(down,sourceFloor)
         if (math.fabs(sourceXY[1] - destXY[1])/ sourceXY[1] < .1):
             if (sourceXY[0] > destXY[0]):
                 if (left != "null"):
@@ -295,6 +329,5 @@ def findPath(source, dest):
                     source = up
                     sourceXY = upXY
                     prevDirect = "down"
-        print coords
     return coords
     

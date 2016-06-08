@@ -14,7 +14,8 @@ def login():
 @app.route("/searchRoom")
 def searchRoom():
     room = request.args.get("room")
-    json.dumps(query.getXY(room))
+    floor = query.getFloorOf(room)
+    json.dumps(query.getXY(room, floor))
 
 @app.route("/search")
 def search():
@@ -62,7 +63,8 @@ def denied():
 @app.route("/getXY")
 def getXYCoord():
     room = request.args.get("room")
-    coords = query.getXY(room)
+    floor = query.getFloorOf(room)
+    coords = query.getXY(room,floor)
     return json.dumps(coords)
 
 

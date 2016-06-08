@@ -1,35 +1,47 @@
 <!DOCTYPE html>
 <html>
-<link rel="stylesheet" type="text/css" href="../static/stuyMaps.css">
-<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-<meta name="google-signin-client_id" content="327411855984-u52p44erpp7fg7kna60j66lie7eou5jv.apps.googleusercontent.com">
-<ul>
-  <li><a href="/">Home</a></li>
-  <li><a href="/search">Search</a></li>
-  <li><a href="/directions">Directions</a></li>
-  <li><a href="#" onclick="signOut();">Log out</a></li>
-</ul>
-<div class="webpage" style="margin: 0;">
-  <center>
-    <div class="logo">
-      <h1> StuyMaps </h1>
+  <link rel="stylesheet" type="text/css" href="../static/stuyMaps.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <meta name="google-signin-client_id" content="327411855984-u52p44erpp7fg7kna60j66lie7eou5jv.apps.googleusercontent.com">
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+	<a class="navbar-brand" style="color: rgb(131,156,165); font-style:italic; font-size:200%;" href="#">StuyMaps</a>
+      </div>
+      <ul class="nav navbar-nav">
+	<li class="active">
+	<li><a href="/">Home</a></li>
+	<li><a href="/search">Search</a></li> 
+	<li><a href="/directions">Directions</a></li> 
+	<li><a href="#" onclick="signOut();">Sign out</a></li>
+      </ul>
     </div>
-  </center>
-<body>
-  <center>
-    <h2> Search for a room </h2>
-  <input type="text" id="search" placeholder="Room" class="search"> </input>
-  <button id="button" class="button"> Search</button>
-  <br>
-  <svg id="map" height="100" width="100" style="padding:8px 15px;"> </svg>
-</body>
-<footer>
-  <br>
-  <br>
-  <div id="signin" class="g-signin2" data-onsuccess="onSignIn"></div>
-  <br>
-</footer>
-<script src="../static/oauth.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-<script src="https://apis.google.com/js/platform.js" async defer></script>
-<script src="../static/search.js"> </script>
+  </nav>
+  <div class="webpage" style="margin: 0;">
+    <center>
+      <div class="logo">
+	<h1> StuyMaps </h1>
+      </div>
+    </center>
+    <body>
+      <center>
+	<h2> Search for a room </h2>
+	<input type="text" id="search" placeholder="Room" class="search"> </input>
+	<button id="button" class="button"> Search</button>
+	<br>
+	<svg id="map" height="100" width="100" style="padding:8px 15px;"> </svg>
+      </center>
+    </body>
+  </div>
+  <footer>
+    <br>
+    <br>
+    <div id="signin" class="g-signin2" data-onsuccess="onSignIn"></div>
+    <br>
+  </footer>
+  <script src="../static/oauth.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script src="../static/search.js"> </script>
+  
