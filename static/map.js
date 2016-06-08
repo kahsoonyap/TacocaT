@@ -2,12 +2,6 @@ var svg = document.getElementById("maps");
 
 var height = Math.floor(screen.height * .6 / 2) * 2;
 var width = Math.floor (screen.width * .44 / 2) * 2;
-/*var svg=d3.select("#maps")
-          .attr("width",width)
-          .attr("height",height)
-          .on("mousedown", function(){
-	      console.log(d3.mouse(this));
-	  });*/
 svg.height["baseVal"]["value"] = height;
 svg.width["baseVal"]["value"] = width;
 
@@ -91,14 +85,14 @@ function slideMap(event){
 };
 
 right.onclick =function(){
-    if (bMaps[bMaps.length - 1].x["baseVal"]["value"] >= bW/2 - bW/8){
+    if (bMaps[0].x["baseVal"]["value"] <= bW/2 - bW/4){
 	for (i = 0; i < 10; i++){
-	    slideshow[i].transition().attr("x", bW/4).duration(750);
+	    bMaps[i].x["baseVal"]["value"] += bW/4;
 	}
     }
 };
 left.onclick = function(){
-    if (bMaps[0].x["baseVal"]["value"] <= bW/2 + bW/8){
+    if (bMaps[bMaps.length - 1].x["baseVal"]["value"] >= bW/2 + bW/8){
 	for (i = 0; i <10; i++){
 	    bMaps[i].x["baseVal"]["value"] -= bW/4;
 	}
@@ -111,9 +105,6 @@ coor = d3.select("maps")
          .on("mousedown",function(){
 	     console.log(d3.mouse(this));
 	 })
-/*svg.addEventListener('mousedown', function(){
-    console.log(d3.mouse(this));
-})*/
 
 var svg2=d3.select("#maps")
           .on("mousedown", function(){
