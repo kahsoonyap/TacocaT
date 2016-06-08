@@ -151,8 +151,14 @@ var roomChecker = function(curr, dest){
 
 var translateToEnglish = function(directions, start, end){
     directions.reverse();
-    start = parseInt(start.room()[0]);
-    end = parseInt(end.room()[0]);
+    start = parseInt(start.room()[1]);
+    end = parseInt(end.room()[1]);
+    if (start == 0) {
+	start = 10;
+    } 
+    if (end == 0) {
+	end = 10;
+    }
     numFlights = Math.abs(start - end);
     relDirs = directionsRelative(directions);
     if (numFlights == 1) {
@@ -173,8 +179,8 @@ var translateToEnglish = function(directions, start, end){
 	    str += n + ". Go " + numFlights + " down the stairs<br>";
 	    n+=1;
 	}
-	else if (directions[i] != directions[i-1]){
-	    str += n + ". Turn " + relDirs[i-1] + " and walk forwards<br>";
+	else if (directions[i] != directions[i-1] && directions[i] != "up" && directions[i] != "down" && directions[i-1] != "up" && directions[i-1] != "down"){
+	    str += n + ". Turn " + relDirs[i] + " and walk forwards<br>";
 	    n+=1;
 	}
 	if (i == directions.length - 1){
