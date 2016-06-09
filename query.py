@@ -153,7 +153,7 @@ def findPath(source, dest):
                     else:
                         coords.append(leftXY)
                         source = left
-                        sourceXY = left
+                        sourceXY = leftXY
                         prevDirect = "right"
                 elif (up != "null"):
                     if (distance(upXY, sourceXY) > distToDest):
