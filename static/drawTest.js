@@ -9,8 +9,9 @@ map.setAttribute("width",width);
 map.setAttribute("x",0);
 map.setAttribute("y", 0);
 svg.appendChild(map);
+var wrongRoom = document.getElementById("wrongRoom");
 
-var roomDictionary = {"theater1": "170" , "theater2": "270", "pool": "186", "principal": "105", "lunch": "599" , "library": "615", "cafe": "599", "locker": "583", "weight": "580", "su": "260", "union": "260", "nurse" : "371", "senior": "260"}
+var roomDictionary = {"theater1": "170" , "theater2": "270", "pool": "186", "principal": "105", "lunch": "599" , "library": "615", "cafe": "599", "locker": "583", "weight": "580", "su": "260", "union": "260", "nurse" : "371", "senior": "260", "bridge": "299", "scan": "299", "dub": "299", "guid": "235", "college": "225"}
 
 
 var svg2 = document.getElementById("map2");
@@ -27,7 +28,12 @@ var loadFloor = function loadFloor(room){
 	while (svg.childNodes.length > 2){
 	    svg.removeChild(svg.lastChild);
 	}
-	if (d != "null"){
+	wrongRoom.innerHTML = "";
+	console.log(d);
+	if (d == '"null"'){
+	    wrongRoom.innerHTML = "Invalid Input";
+	}
+	else {
 	    d = d.substring(1,d.length-1)
 	    if (d != 10){
 		map.setAttributeNS("http://www.w3.org/1999/xlink", "href","../static/floor0" + d.toString() + ".jpg");
@@ -157,7 +163,7 @@ $("#dest").keyup(function (e) {
 		sourceRoom = roomDictionary[name];
 	    }
 	    if (destRoom.indexOf(name) != -1){
-	    destRoom = roomDictionary[name];
+		destRoom = roomDictionary[name];
 	    }
 	});
 	loadFloor(sourceRoom);
