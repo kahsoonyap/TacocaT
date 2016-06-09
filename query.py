@@ -21,7 +21,6 @@ def getFloorOf(room):
         return "null"
     else:
         floor = str(list(floor[0])[0])
-        print floor + " " + str(room)
         return floor
     
 
@@ -64,11 +63,9 @@ def getStaircases(floor):
     c = conn.cursor()
     q = "SELECT room FROM rooms where CAST(rooms.room as 'decimal') >= 1100 and rooms.floor='" +  str(floor) + "';"
     staircase = c.execute(q).fetchall()
-    print staircase
     conn.commit()
     conn.close()
     fixed = [int(list(a)[0]) for a in staircase]
-    print fixed
     return fixed
 
 def getIntersectXY(intersect, floor):
@@ -99,13 +96,11 @@ def findPath(source, dest):
     source = int(source)
     dest = int(dest)
     destFloor = getFloorOf(dest)
-    print type(source)
     if (source >= 1100):
         sourceFloor = destFloor
     else:
         sourceFloor = getFloorOf(source)
     sourceXY = getXY(source,sourceFloor)
-    print str(sourceXY) + " here"
     destXY = getXY(dest,destFloor)
     if sourceFloor == "null" or destFloor == "null":
         return "Invalid rooms"
@@ -120,11 +115,22 @@ def findPath(source, dest):
             distances.append(distance(sourceXY, stairXYSource[i]) + distance(destXY, stairXYDest[i]))
         bestStaircase = allStairs[distances.index(min(distances))]
         return findPath(bestStaircase,source) + [[-1, int(destFloor)]] + findPath(bestStaircase, dest) 
+    if (dest == 239):
+        if (destFloor == sourceFloor):
+            dest = source
+            source = 239
+            destXY = sourceXY
+            sourceXY = getXY(239, 2)
+            destFloor = sourceFloor
+            sourceFloor = 2
     distToDest = distance(sourceXY, destXY)
     coords = [sourceXY]
     prevDirect = ""
     while(distance(sourceXY, destXY) > 0):
-        print source
+        if (source == 6 and dest == 273):
+            coords.append(destXY)
+            return coords
+        print str(source) + " 124"
         distToDest = distance(sourceXY, destXY)
         left = getIntersect(source, "left",sourceFloor)
         if (left != "null"):
@@ -143,19 +149,21 @@ def findPath(source, dest):
             down = int(down)
             downXY = getXY(down,sourceFloor)
         if (math.fabs(sourceXY[1] - destXY[1])/ sourceXY[1] < .1):
+            print "this should happen ln 143 " + str(source) 
             if (sourceXY[0] > destXY[0]):
-                if (left != "null"):
+                if (left != "null" and prevDirect != "left"):
                     if (distance(leftXY, sourceXY) > distToDest):
                         coords.append(destXY)
                         source = dest
                         sourceXY = destXY
                         return coords
                     else:
+                        print "this should go thru 152"
                         coords.append(leftXY)
                         source = left
                         sourceXY = leftXY
                         prevDirect = "right"
-                elif (up != "null"):
+                elif (up != "null" and prevDirect != "up"):
                     if (distance(upXY, sourceXY) > distToDest):
                         coords.append(destXY)
                         source = dest
@@ -166,7 +174,7 @@ def findPath(source, dest):
                         source = up
                         sourceXY = upXY
                         prevDirect = "down"
-                elif (down != "null"):
+                elif (down != "null" and prevDirect != "down"):
                     if (distance(downXY, sourceXY) > distToDest):
                         coords.append(destXY)
                         source = dest
@@ -183,7 +191,7 @@ def findPath(source, dest):
                     sourceXY = destXY
                     return coords
             else:
-                if (right != "null"):
+                if (right != "null" and prevDirect != "right"):
                     if (distance(rightXY, sourceXY) > distToDest):
                         coords.append(destXY)
                         source = dest
@@ -194,7 +202,7 @@ def findPath(source, dest):
                         source = right
                         sourceXY = rightXY
                         prevDirect = "left"
-                elif (up != "null"):
+                elif (up != "null" and prevDirect != "up"):
                     if (distance(upXY, sourceXY) > distToDest):
                         coords.append(destXY)
                         source = dest
@@ -205,7 +213,7 @@ def findPath(source, dest):
                         source = up
                         sourceXY = upXY
                         prevDirect = "down"
-                elif (down != "null"):
+                elif (down != "null" and prevDirect != "down"):
                     if (distance(downXY, sourceXY) > distToDest):
                         coords.append(destXY)
                         source = dest
@@ -223,7 +231,7 @@ def findPath(source, dest):
                     return coords
         elif (math.fabs(sourceXY[0] - destXY[0])/ sourceXY[0] < .1):
             if (sourceXY[1] > destXY[1]):
-                if (up != "null"):
+                if (up != "null" and prevDirect != "up"):
                     if (distance(upXY, sourceXY) > distToDest):
                         coords.append(destXY)
                         source = dest
@@ -234,7 +242,7 @@ def findPath(source, dest):
                         source = up
                         sourceXY = upXY
                         prevDirect = "down"
-                elif (left != "null"):
+                elif (left != "null" and prevDirect != "left"):
                     if (distance(leftXY, sourceXY) > distToDest):
                         coords.append(destXY)
                         source = dest
@@ -245,7 +253,7 @@ def findPath(source, dest):
                         source = left
                         sourceXY = leftXY
                         prevDirect = "right"
-                elif (right != "null"):
+                elif (right != "null" and prevDirect != "right"):
                     if (distance(rightXY, sourceXY) > distToDest):
                         coords.append(destXY)
                         source = dest
@@ -262,8 +270,8 @@ def findPath(source, dest):
                     sourceXY = destXY
                     return coords
             else:
-                if (down != "null"):
-                    if (distance(upXY, sourceXY) > distToDest):
+                if (down != "null" and prevDirect != "down"):
+                    if (distance(downXY, sourceXY) > distToDest):
                         coords.append(destXY)
                         source = dest
                         sourceXY = destXY
@@ -273,7 +281,7 @@ def findPath(source, dest):
                         source = down
                         sourceXY = downXY
                         prevDirect = "up"
-                elif (left != "null"):
+                elif (left != "null" and prevDirect != "left"):
                     if (distance(leftXY, sourceXY) > distToDest):
                         coords.append(destXY)
                         source = dest
@@ -284,7 +292,7 @@ def findPath(source, dest):
                         source = left
                         sourceXY = leftXY
                         prevDirect = "right"
-                elif (right != "null"):
+                elif (right != "null" and prevDirect != "right"):
                     if (distance(rightXY, sourceXY) > distToDest):
                         coords.append(destXY)
                         source = dest
@@ -301,7 +309,6 @@ def findPath(source, dest):
                     sourceXY = destXY
                     return coords
         elif (math.fabs(sourceXY[0] - destXY[0]) > math.fabs(sourceXY[1] - destXY[1])):
-            print str(source) + " here"
             if (sourceXY[0] > destXY[0]):
                 if (left != "null" and prevDirect != "left"):
                     coords.append(leftXY)
@@ -319,13 +326,11 @@ def findPath(source, dest):
                     sourceXY = downXY
                     prevDirect =  "up"
                 else:
-                    print "stuff"
                     coords.append(rightXY)
                     source = right
                     sourceXY = rightXY
                     prevDirect = "left"
             else:
-                print str(source) + " " +  str(right)
                 if (right != "null" and prevDirect != "right"):
                     coords.append(rightXY)
                     source = right

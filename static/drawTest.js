@@ -10,6 +10,9 @@ map.setAttribute("x",0);
 map.setAttribute("y", 0);
 svg.appendChild(map);
 
+var roomDictionary = {"theater1": "170" , "theater2": "270", "pool": "186", "principal": "105", "lunch": "599" , "library": "615", "cafe": "599", "locker": "583", "weight": "580", "su": "260", "union": "260", "nurse" : "371", "senior": "260"}
+
+
 var svg2 = document.getElementById("map2");
 var map2 = document.createElementNS("http://www.w3.org/2000/svg", "image");
 map2.setAttribute("height", height);
@@ -65,12 +68,12 @@ var drawPath = function drawPath(source, dest){
 	    holder=[fixed[i],fixed[i+1]];
 	    path.push(holder);
 	}
-	console.log(path);
-	i = 0;	   
+	console.log(path);	   
 	var twoFloors = false;
 	for (i = 0; i < path.length - 1; i++){
 	    var line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-	    console.log(path[i] + path[i+1]);
+	    console.log(path[i])
+	    console.log(path[i+1]);
 	    if (path[i][0] == "-1"){
 		console.log(path[i][1]);
 		if (path[i][1] != "10"){
@@ -110,8 +113,17 @@ var sourceInput = document.getElementById("source");
 var destInput = document.getElementById("dest");
 var button = document.getElementById("button");
 button.addEventListener("click", function(e){
-    var sourceRoom = sourceInput.value;
-    var destRoom = destInput.value;
+    var sourceRoom = sourceInput.value.trim().toLowerCase();
+    var destRoom = destInput.value.trim().toLowerCase(); 
+    var names = Object.keys(roomDictionary);
+    names.forEach(function(name){
+	if (sourceRoom.indexOf(name) != -1){
+	    sourceRoom = roomDictionary[name];
+	}
+	if (destRoom.indexOf(name) != -1){
+	    destRoom = roomDictionary[name];
+	}
+    });
     loadFloor(sourceRoom);
     drawPath(sourceRoom, destRoom);
 });
@@ -119,8 +131,17 @@ button.addEventListener("click", function(e){
 $("#source").keyup(function (e) {
     if (e.keyCode == 13) {
 	console.log("???");
-	var sourceRoom = sourceInput.value;
-	var destRoom = destInput.value;
+	var sourceRoom = sourceInput.value.trim().toLowerCase();
+	var destRoom = destInput.value.trim().toLowerCase();
+	var names = Object.keys(roomDictionary);
+	names.forEach(function(name){
+	    if (sourceRoom.indexOf(name) != -1){
+		sourceRoom = roomDictionary[name];
+	    }
+	    if (destRoom.indexOf(name) != -1){
+		destRoom = roomDictionary[name];
+	    }
+	});
 	loadFloor(sourceRoom);
 	drawPath(sourceRoom, destRoom);
     }
@@ -128,8 +149,17 @@ $("#source").keyup(function (e) {
 $("#dest").keyup(function (e) {
     if (e.keyCode == 13) {
 	console.log("???");
-	var sourceRoom = sourceInput.value;
-	var destRoom = destInput.value;
+	var sourceRoom = sourceInput.value.trim().toLowerCase();
+	var destRoom = destInput.value.trim().toLowerCase();
+	var names = Object.keys(roomDictionary);
+	names.forEach(function(name){
+	    if (sourceRoom.indexOf(name) != -1){
+		sourceRoom = roomDictionary[name];
+	    }
+	    if (destRoom.indexOf(name) != -1){
+	    destRoom = roomDictionary[name];
+	    }
+	});
 	loadFloor(sourceRoom);
 	drawPath(sourceRoom, destRoom);
     }
