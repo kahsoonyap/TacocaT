@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, session, redirect,url_for, Markup
-from oauth2client.client import flow_from_clientsecrets
 import json
 import query
 
