@@ -133,6 +133,14 @@ def findPath(source, dest):
             sourceXY = getXY(239, 2)
             destFloor = sourceFloor
             sourceFloor = 2
+    elif (source == 507):
+        coords = [sourceXY]
+        source = 8
+        sourceXY = getXY(8,5)
+    elif (source == 525):
+        coords = [sourceXY]
+        source = 0
+        sourceXY = getXY(0,5)
     elif (source == 407):
         coords = [sourceXY]
         source = 9
@@ -173,36 +181,40 @@ def findPath(source, dest):
     coords.append(sourceXY)
     prevDirect = ""
     while(distance(sourceXY, destXY) > 0 and numRecur < 100):
-        print numRecur
+        print source
         numRecur+=1
         if (source == 9 and dest > 408 and dest < 500):
             source = 8
             sourceXY = getXY(8, 4)
             coords.append(sourceXY)
-        if (source == 6 and dest == 273):
+        elif (source == 6 and dest == 273):
             coords.append(destXY)
             return coords
-        if (source == 5 and dest == 371):
+        elif (source == 5 and dest == 371):
             coords.append(destXY)
             return coords
-        if (source == 5 and dest == 372):
+        elif (source == 5 and dest == 372):
             coords.append(destXY)
             return coords
-        if (source == 5 and dest == 373):
+        elif (source == 5 and dest == 373):
             coords.append(destXY)
             return coords
-        if (source == 5 and dest == 313):
+        elif (source == 5 and dest == 313):
             source = 7
-            sourceXY = getXY(7 , 3);
-            coords.append(sourceXY);
-        if (source == 5 and dest == 311):
+            sourceXY = getXY(7 , 3)
+            coords.append(sourceXY)
+        elif (source == 5 and dest == 311):
             source = 7
-            sourceXY = getXY(7 , 3);
-            coords.append(sourceXY);
-        if (source == 5 and dest == 315):
+            sourceXY = getXY(7 , 3)
+            coords.append(sourceXY)
+        elif (source == 5 and dest == 315):
             source = 7
-            sourceXY = getXY(7 , 3);
-            coords.append(sourceXY);
+            sourceXY = getXY(7 , 3)
+            coords.append(sourceXY)
+        elif (source == 6 and dest == 507):
+            source = 7
+            sourceXY = getXY(7,5)
+            coords.append(sourceXY)
         distToDest = distance(sourceXY, destXY)
         left = getIntersect(source, "left",sourceFloor)
         if (left != "null"):
@@ -270,12 +282,14 @@ def findPath(source, dest):
                                 sourceXY = downXY
                                 prevDirect = "up"
                         if (up!= "null" and prevDirect != "up"):
+                            print "ln 282 should work"
                             if (distance(upXY, sourceXY) > distToDest):
                                 coords.append(destXY)
                                 source = dest
                                 sourceXY = destXY
                                 return coords
                             else:
+                                print "289 here"
                                 coords.append(upXY)
                                 source = up
                                 sourceXY = upXY

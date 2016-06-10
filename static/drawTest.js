@@ -11,7 +11,7 @@ map.setAttribute("y", 0);
 svg.appendChild(map);
 var wrongRoom = document.getElementById("wrongRoom");
 
-var roomDictionary = {"theater1": "170" , "theater2": "270", "pool": "186", "principal": "105", "lunch": "599" , "library": "615", "cafe": "599", "locker": "583", "weight": "580", "su": "260", "union": "260", "nurse" : "371", "senior": "260", "bridge": "299", "scan": "299", "dub": "299", "guid": "235", "college": "225", "social": "301", "3flgym": "380", "thirdflgym": "380","thirdfloorgym": "380", "3floorgym": "380", "3rdfloorgym": "380", "3rdflgym": "380" , "attend": "299"};
+var roomDictionary = {"theater1": "170" , "theater2": "270", "pool": "186", "principal": "105", "lunch": "599" , "library": "615", "cafe": "599", "locker": "583", "weight": "580", "su": "260", "union": "260", "nurse" : "371", "senior": "260", "bridge": "299", "scan": "299", "dub": "299", "guid": "235", "college": "225", "social": "301", "3flgym": "380", "thirdflgym": "380","thirdfloorgym": "380", "3floorgym": "380", "3rdfloorgym": "380", "3rdflgym": "380" , "attend": "299", "615a": "616", "6thfloorgym": "680", "6thflgym": "680", "6flgym": "680", "6floorgym": "680", "sixthflgym": "680", "sixthfloorgym": "680", "dance": "660", "math": "402", "lan": "502", "foreign": "502", "phys": "501", "staff": "531", "teacher": "531", "english": "601", "mail": "211", "bio": "701", "physic": "802", "chem": "904", "store": "262" };
 
 var svg2 = document.getElementById("map2");
 var map2 = document.createElementNS("http://www.w3.org/2000/svg", "image");
@@ -53,7 +53,8 @@ var drawPath = function drawPath(source, dest){
 	while (svg2.childNodes.length > 2){
 	    svg2.removeChild(svg2.lastChild);
 	}
-	if (d == "Invalid rooms"){
+	if (d == '"Invalid rooms"'){
+	    console.log("??/");
 	    wrongRoom.innerHTML = "Invalid Input";
 	}
 	else{
@@ -165,6 +166,7 @@ button.addEventListener("click", function(e){
     });
     loadFloor(sourceRoom);
     drawPath(sourceRoom, destRoom);
+    returnDirections(sourceRoom, destRoom);
 });
 
 $("#source").keyup(function (e) {
@@ -183,6 +185,7 @@ $("#source").keyup(function (e) {
 	});
 	loadFloor(sourceRoom);
 	drawPath(sourceRoom, destRoom);
+	returnDirections(sourceRoom, destRoom);
     }
 });
 $("#dest").keyup(function (e) {
@@ -201,5 +204,6 @@ $("#dest").keyup(function (e) {
 	});
 	loadFloor(sourceRoom);
 	drawPath(sourceRoom, destRoom);
+	returnDirections(sourceRoom, destRoom);
     }
 });
