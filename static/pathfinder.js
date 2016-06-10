@@ -240,17 +240,52 @@ var translateToEnglish = function(directions, pathArray, start, end){
 	    str += n + ". Go " + numFlights + " down the stairs<br>";
 	    n+=1;
 	}
-	else if (directions[i] != directions[i-1] && directions[i] != "up" && directions[i] != "down" && directions[i-1] != "up" && directions[i-1] != "down"){
-	    str += n + ". Turn " + relDirs[i-1] + " and walk forwards<br>";
+	else if (directions[i] != directions[i-1] && directions[i] != "up" && directions[i] != "down" && directions[i-1] != "up" && directions[i-1] != "down" && i < directions.length - 1){
+	    var roomNear = "none";
+	    console.log(currBlock.room());
+	    if (currBlock.north().type() == "room"){
+		roomNear = currBlock.north().room();
+	    }
+	    else if (currBlock.south().type() == "room"){
+		roomNear = currBlock.south().room();
+	    }
+	    else if (currBlock.east().type() == "room"){
+		roomNear = currBlock.east().room();
+	    }
+	    else if (currBlock.west().type() == "room"){
+		roomNear = currBlock.west().room();
+	    }
+	    if (roomNear.substring(0, 1) == "0") {
+		roomNear = roomNear.substring(1);
+	    }
+		roomNear = "room " + roomNear;
+	    if (roomNear.substring(5, 7) == "sA") {
+		roomNear = "the eastern stairwell";
+	    }
+	    if (roomNear.substring(5, 7) == "sB") {
+		roomNear = "the central stairwell";
+	    }
+	    if (roomNear.substring(5, 7) == "sC") {
+		roomNear = "the hudson stairwell";
+	    }
+	    if (roomNear != "room none") {
+		str += n + ". Turn " + relDirs[i-1] + " near " + roomNear + " and walk forwards<br>";
+	    } else {
+		str += n + ". Turn " + relDirs[i-1] + " and walk forwards<br>";
+	    }
 	    n+=1;
 	}
 
-	else if (directions[i] != directions[i-1]) {
+	else if (directions[i - 1] == "up" || directions[i - 1] == "down") {
 	    str += n + ". After exiting stairwell, head " + relDirs[i-1] + " and walk forwards<br>";
 	    n+=1;
 	}
-	if (i == directions.length - 1){
-	    str += n + ". You're at your room!";
+	else if (i == directions.length - 1){
+	    if (relDirs[i-1] == "dne") {
+		str += n + ". Your room should be straight ahead!";
+	    } else {
+		str += n + ". Your room should be on your " + relDirs[i-1] + "!";
+	    }
 	    n+=1;
 	}
     }
