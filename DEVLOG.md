@@ -34,3 +34,41 @@
 ## 5/25
 * Primitive English translation working. Instructions are understandable, but not friendly to use
 * Uploaded floorplans
+
+## 5/26
+* login now works. Only able to see app with stuy.edu msg
+* Changed slide. changed asthetics. 
+
+## 5/27
+* fixed directions. able to use it multiple times now. Only one floor
+ 
+## 5/30
+* written directions able to go between floors now
+
+## 5/31
+* add feature to js to get coors of mouse on svg realitive to svg.
+* written directions shows maps now
+
+## 6/2 
+* added csv of firstFloor intersections and rooms
+* written directions able to do stairs
+
+## 6/5
+* adding to app.py. connecting visual route to main page.
+* changed error message for not having stuy.edu email
+* 
+## 6/6
+* added floor2 to db
+* got drawing of route working on first floor only
+
+## 6/7
+* going cross floors for visual route works.
+*
+## 6/8 
+* written directions between multiple floors work now but buggy
+
+## 6/9
+* 3rd,4th,5th,6th,7th,8th,9th floor added to db
+* written directions fully work mostly
+* visual directions all work
+* linked the two together
