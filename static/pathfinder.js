@@ -288,7 +288,7 @@ var translateToEnglish = function(directions, pathArray, start, end){
 	    else if (roomNear != "room none") {
 		str += n + ". Turn " + relDirs[i-1] + " near " + roomNear + " and walk forwards<br>";
 	    } else {
-		str += n + ". Turn " + relDirs[i-1] + " and walk forwards<br>";
+		str += n + ". Turn " + relDirs[i-1] + "at the next intersection and walk forwards<br>";
 	    }
 	    n+=1;
 	}
@@ -461,7 +461,7 @@ var directionsRelative = function(directions){
 var searchByName = function(room){
     if (room.length == 3){
 	room = "0" + room;
-    }/*
+    }
     if (room.toLowerCase() == "principal's office"){
 	return "0107";
     } else if (room.toLowerCase() == "theater"){
@@ -520,7 +520,7 @@ var searchByName = function(room){
 	return "0904";
     } else if(room.toLowerCase() == "small group"){
 	return "0926";
-    }*/
+    }
     return room;
 }
 
@@ -539,7 +539,7 @@ var returnDirections = function(source, dest) {
 	console.log(endRoom);
 	//form.elements.namedItem("end").value = "";
 	//find the room in the dictionary and get the image
-	/*var start =  floors[startRoom.substring(0,2)][startRoom];
+	var start =  floors[startRoom.substring(0,2)][startRoom];
 	var startFloor = startRoom.substring(0,2);
 	var startFloorPic = document.getElementById("startFloor");
 	var startFloorPath = "static/floor" + startFloor + ".jpg";
@@ -556,7 +556,7 @@ var returnDirections = function(source, dest) {
 	    console.log(start.room);
 	} else {
 	    endFloorPic.setAttribute("src", "");
-	}*/
+	}
 	steps = pathFinder(start, end);
     } catch (err){
 	steps.push("Room not found");
