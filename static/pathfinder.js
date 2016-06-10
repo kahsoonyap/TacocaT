@@ -83,6 +83,8 @@ var endDifferentFloor = function(start, end){
     var startRoom = start.room().substring(2,4); 
     var endRoom = end.room().substring(2,4);
     var midPoint = (parseInt(startRoom) + parseInt(endRoom)) / 2;
+    var startBlock = start;
+    var endBlock = end;
     if (midPoint < 17){
 	startBlock = floors[startFloor]["sA" + startFloor];
 	endBlock = floors[endFloor]["sA" + endFloor];
@@ -154,6 +156,7 @@ var roomChecker = function(curr, dest){
 
 
 var translateToEnglish = function(directions, start, end){
+    resetChecked(floors);
     directions.reverse();
     start = parseInt(start.room()[1]);
     end = parseInt(end.room()[1]);
@@ -360,7 +363,7 @@ var searchByName = function(room){
 var returnDirections = function(e) {
     var form = document.getElementById("directions");
     var startRoom = searchByName(form.elements.namedItem("start").value);
-    var endRoom = searchByName(form.elements.namedItem("end").value);  
+    var endRoom = searchByName(form.elements.namedItem("end").value);
     var start =  floors[startRoom.substring(0,2)][startRoom];
     var startFloor = start.room().substring(0,2);
     var startFloorPic = document.getElementById("startFloor");
@@ -381,7 +384,6 @@ var returnDirections = function(e) {
     var stepsP = document.getElementById("steps");
     var steps = pathFinder(start, end);
     stepsP.innerHTML = steps;
-    resetChecked(floors);
 };
 
 var resetChecked = function(data){
