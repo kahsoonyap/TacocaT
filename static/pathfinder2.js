@@ -240,7 +240,7 @@ var translateToEnglish = function(directions, pathArray, start, end){
 	    str += n + ". Go " + numFlights + " down the stairs<br>";
 	    n+=1;
 	}
-	else if (directions[i] != directions[i-1] && directions[i] != "up" && directions[i] != "down" && directions[i-1] != "up" && directions[i-1] != "down" && i < directions.length - 1){
+	else if (directions[i] != directions[i-1] && directions[i] != "up" && directions[i] != "down" && directions[i-1] != "up" && directions[i-1] != "down" && i < directions.length - 1 && i != 1){
 	    var roomNear = "none";
 	    console.log(currBlock.room());
 	    if (directions[i+1] == "up" || directions[i+1] == "down") {
@@ -288,7 +288,7 @@ var translateToEnglish = function(directions, pathArray, start, end){
 	    else if (roomNear != "room none") {
 		str += n + ". Turn " + relDirs[i-1] + " near " + roomNear + " and walk forwards<br>";
 	    } else {
-		str += n + ". Turn " + relDirs[i-1] + " and walk forwards<br>";
+		str += n + ". Turn " + relDirs[i-1] + " at the next intersection and walk forwards<br>";
 	    }
 	    n+=1;
 	}
