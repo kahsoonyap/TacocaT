@@ -176,8 +176,23 @@ var translateToEnglish = function(directions, start, end){
     console.log(directions);
     var n = 1;
     var str = "";
-    str += n + ". Turn " + relDirs[0] + " after exiting your room and walk forwards<br>";
-    n+=1;
+    if (relDirs[0] == "dne") {                                          
+        if (directions[0] == "up") {                                     
+            str += n + ". After exiting your room, go to the nearest stai
+rcase and go " + numFlights + " up the stairs<br>";                      
+        } else if (directions[0] == "down") {                            
+            str += n + ". After exiting your room, go to the nearest stai
+rcase and go " + numFlights + " down the stairs<br>";                    
+        } else {                                                         
+            str += n + ". After exiting your room, walk forwards<br>";   
+        }                                                                
+        n+= 1;                                                           
+    } else {                                                            
+        str += n + ". Turn " + relDirs[0] + " after exiting your room and
+ walk forwards<br>";                                                  
+        n+=1; 
+    }
+
     for (var i = 1; i < directions.length; i ++){
 	if (directions[i] == "up") {
 	    str += n + ". Go " + numFlights + " up the stairs<br>";
