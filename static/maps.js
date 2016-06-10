@@ -464,7 +464,7 @@ floor03["b0309"].setNorth(floor03["b0330"]);
 floor03["b0309"].setSouth(floor03["b0310"]);
 floor03["b0309"].setWest(floor03["sB03"]);
 floor03["b0309"].setEast(floor03["b0308"]);
-floor03["b0310"].setNorth(floor03["b0306"]);
+floor03["b0310"].setNorth(floor03["b0309"]);
 floor03["b0310"].setSouth(floor03["0327"]);
 floor03["b0310"].setWest(floor03["b0311"]);
 floor03["b0310"].setEast(floor03["0325"]);
