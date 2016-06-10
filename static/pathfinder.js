@@ -177,19 +177,16 @@ var translateToEnglish = function(directions, start, end){
     var n = 1;
     var str = "";
     if (relDirs[0] == "dne") {                                          
-        if (directions[0] == "up") {                                     
-            str += n + ". After exiting your room, go to the nearest stai
-rcase and go " + numFlights + " up the stairs<br>";                      
-        } else if (directions[0] == "down") {                            
-            str += n + ". After exiting your room, go to the nearest stai
-rcase and go " + numFlights + " down the stairs<br>";                    
-        } else {                                                         
-            str += n + ". After exiting your room, walk forwards<br>";   
-        }                                                                
+        if (directions[0] == "up") {
+	    str += n + ". After exiting your room, go to the nearest staircase and go " + numFlights + " up the stairs<br>";                      
+        } else if (directions[0] == "down") {
+	    str += n + ". After exiting your room, go to the nearest staircase and go " + numFlights + " down the stairs<br>";
+	} else {
+	    str += n + ". After exiting your room, walk forwards<br>";
+	}                                                                
         n+= 1;                                                           
     } else {                                                            
-        str += n + ". Turn " + relDirs[0] + " after exiting your room and
- walk forwards<br>";                                                  
+        str += n + ". Turn " + relDirs[0] + " after exiting your room and walk forwards<br>";                                                  
         n+=1; 
     }
 
@@ -216,7 +213,7 @@ rcase and go " + numFlights + " down the stairs<br>";
 var directionsRelative = function(directions){
     var dirRel = [];
     var i;
-    for (i = 0; i < directions.length - 1; i++) {
+    for (i = 0; i < directions.length - 2; i++) {
 	switch(directions[i]) {
 	case "north":
 	    switch(directions[i+1]) {
@@ -306,6 +303,11 @@ var directionsRelative = function(directions){
 		break;
 	    }
 	    break;
+	}
+	console.log(dirRel);
+	console.log(directions[i] + "-->" + directions[i+1]);
+	if (dirRel.length == i) {
+	    console.log("ok");
 	}
     }
     console.log(dirRel);
