@@ -83,6 +83,8 @@ var endDifferentFloor = function(start, end){
     var startRoom = start.room().substring(2,4); 
     var endRoom = end.room().substring(2,4);
     var midPoint = (parseInt(startRoom) + parseInt(endRoom)) / 2;
+    var startBlock = start;
+    var endBlock = end;
     if (midPoint < 17){
 	startBlock = floors[startFloor]["sA" + startFloor];
 	endBlock = floors[endFloor]["sA" + endFloor];
@@ -154,6 +156,7 @@ var roomChecker = function(curr, dest){
 
 
 var translateToEnglish = function(directions, start, end){
+    resetChecked(floors);
     directions.reverse();
     start = parseInt(start.room()[1]);
     end = parseInt(end.room()[1]);
@@ -173,8 +176,23 @@ var translateToEnglish = function(directions, start, end){
     console.log(directions);
     var n = 1;
     var str = "";
-    str += n + ". Turn " + relDirs[0] + " after exiting your room and walk forwards<br>";
-    n+=1;
+    if (relDirs[0] == "dne") {                                          
+        if (directions[0] == "up") {                                     
+            str += n + ". After exiting your room, go to the nearest stai
+rcase and go " + numFlights + " up the stairs<br>";                      
+        } else if (directions[0] == "down") {                            
+            str += n + ". After exiting your room, go to the nearest stai
+rcase and go " + numFlights + " down the stairs<br>";                    
+        } else {                                                         
+            str += n + ". After exiting your room, walk forwards<br>";   
+        }                                                                
+        n+= 1;                                                           
+    } else {                                                            
+        str += n + ". Turn " + relDirs[0] + " after exiting your room and
+ walk forwards<br>";                                                  
+        n+=1; 
+    }
+
     for (var i = 1; i < directions.length; i ++){
 	if (directions[i] == "up") {
 	    str += n + ". Go " + numFlights + " up the stairs<br>";
@@ -295,6 +313,9 @@ var directionsRelative = function(directions){
 }
 
 var searchByName = function(room){
+    if (room.length == 3){
+	room = "0" + room;
+    }
     if (room.toLowerCase() == "principal's office"){
 	return "0107";
     } else if (room.toLowerCase() == "theater"){
@@ -360,15 +381,15 @@ var searchByName = function(room){
 var returnDirections = function(e) {
     var form = document.getElementById("directions");
     var startRoom = searchByName(form.elements.namedItem("start").value);
-    var endRoom = searchByName(form.elements.namedItem("end").value);  
+    var endRoom = searchByName(form.elements.namedItem("end").value);
     var start =  floors[startRoom.substring(0,2)][startRoom];
-    var startFloor = start.room().substring(0,2);
+    var startFloor = startRoom.substring(0,2);
     var startFloorPic = document.getElementById("startFloor");
     var startFloorPath = "static/floor" + startFloor + ".jpg";
     startFloorPic.setAttribute("src", startFloorPath);
     startFloorPic.setAttribute("height", "500");
     var end = floors[endRoom.substring(0,2)][endRoom];
-    var endFloor = end.room().substring(0,2);
+    var endFloor = endRoom.substring(0,2);
     var endFloorPic = document.getElementById("endFloor");
     var endFloorPath = "static/floor" + endFloor + ".jpg";
     if (startFloor != endFloor) {
@@ -379,9 +400,13 @@ var returnDirections = function(e) {
 	endFloorPic.setAttribute("src", "");
     }
     var stepsP = document.getElementById("steps");
-    var steps = pathFinder(start, end);
+    var steps = [];
+    try {
+	steps = pathFinder(start, end);
+    } catch (err){
+	steps.push("Room not found");
+    }    
     stepsP.innerHTML = steps;
-    resetChecked(floors);
 };
 
 var resetChecked = function(data){
