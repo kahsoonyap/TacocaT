@@ -298,6 +298,9 @@ var directionsRelative = function(directions){
 }
 
 var searchByName = function(room){
+    if (room.length == 3){
+	room = "0" + room;
+    }
     if (room.toLowerCase() == "principal's office"){
 	return "0107";
     } else if (room.toLowerCase() == "theater"){
@@ -365,13 +368,13 @@ var returnDirections = function(e) {
     var startRoom = searchByName(form.elements.namedItem("start").value);
     var endRoom = searchByName(form.elements.namedItem("end").value);
     var start =  floors[startRoom.substring(0,2)][startRoom];
-    var startFloor = start.room().substring(0,2);
+    var startFloor = startRoom.substring(0,2);
     var startFloorPic = document.getElementById("startFloor");
     var startFloorPath = "static/floor" + startFloor + ".jpg";
     startFloorPic.setAttribute("src", startFloorPath);
     startFloorPic.setAttribute("height", "500");
     var end = floors[endRoom.substring(0,2)][endRoom];
-    var endFloor = end.room().substring(0,2);
+    var endFloor = endRoom.substring(0,2);
     var endFloorPic = document.getElementById("endFloor");
     var endFloorPath = "static/floor" + endFloor + ".jpg";
     if (startFloor != endFloor) {
@@ -382,7 +385,12 @@ var returnDirections = function(e) {
 	endFloorPic.setAttribute("src", "");
     }
     var stepsP = document.getElementById("steps");
-    var steps = pathFinder(start, end);
+    var steps = [];
+    try {
+	steps = pathFinder(start, end);
+    } catch (err){
+	steps.push("Room not found");
+    }    
     stepsP.innerHTML = steps;
 };
 
