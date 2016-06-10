@@ -116,10 +116,15 @@ def findPath(source, dest):
             distances.append(distance(sourceXY, stairXYSource[i]) + distance(destXY, stairXYDest[i]))
         bestStaircase = allStairs[distances.index(min(distances))]
         return findPath(bestStaircase,source) + [[-1, int(destFloor)]] + findPath(bestStaircase, dest) 
+    coords = []
     if (dest == 273 and source==1500):
         coords = [sourceXY]
         coords.append(destXY)
         return coords
+    elif (source == 427):
+        coords = [sourceXY]
+        source = 4
+        sourceXY = getXY(4, 4)
     elif (dest == 239):
         if (destFloor == sourceFloor):
             dest = source
@@ -128,6 +133,10 @@ def findPath(source, dest):
             sourceXY = getXY(239, 2)
             destFloor = sourceFloor
             sourceFloor = 2
+    elif (source == 407):
+        coords = [sourceXY]
+        source = 9
+        sourceXY = getXY(9,4)
     elif (dest == 273):
         if (destFloor == sourceFloor):
             dest = source
@@ -161,11 +170,15 @@ def findPath(source, dest):
             destFloor = sourceFloor
             sourceFloor = 3
     distToDest = distance(sourceXY, destXY)
-    coords = [sourceXY]
+    coords.append(sourceXY)
     prevDirect = ""
     while(distance(sourceXY, destXY) > 0 and numRecur < 100):
         print numRecur
         numRecur+=1
+        if (source == 9 and dest > 408 and dest < 500):
+            source = 8
+            sourceXY = getXY(8, 4)
+            coords.append(sourceXY)
         if (source == 6 and dest == 273):
             coords.append(destXY)
             return coords
