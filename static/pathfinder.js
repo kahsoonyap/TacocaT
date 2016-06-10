@@ -72,6 +72,8 @@ var block = function(roomName, blockType){
 
 //wrapper function
 var pathFinder = function(start, end){
+    console.log(start);
+    console.log(end);    
     if (start == end){
 	return ["Please enter two different rooms"];
     } else {
@@ -386,29 +388,29 @@ var searchByName = function(room){
 }
 
 var returnDirections = function(e) {
-    var form = document.getElementById("directions");
-    var startRoom = searchByName(form.elements.namedItem("start").value);
-    var endRoom = searchByName(form.elements.namedItem("end").value);
-    var start =  floors[startRoom.substring(0,2)][startRoom];
-    var startFloor = startRoom.substring(0,2);
-    var startFloorPic = document.getElementById("startFloor");
-    var startFloorPath = "static/floor" + startFloor + ".jpg";
-    startFloorPic.setAttribute("src", startFloorPath);
-    startFloorPic.setAttribute("height", "500");
-    var end = floors[endRoom.substring(0,2)][endRoom];
-    var endFloor = endRoom.substring(0,2);
-    var endFloorPic = document.getElementById("endFloor");
-    var endFloorPath = "static/floor" + endFloor + ".jpg";
-    if (startFloor != endFloor) {
-	endFloorPic.setAttribute("src", endFloorPath);
-	endFloorPic.setAttribute("height", "500");
-	console.log(start.room);
-    } else {
-	endFloorPic.setAttribute("src", "");
-    }
     var stepsP = document.getElementById("steps");
     var steps = [];
     try {
+	var form = document.getElementById("directions");
+	var startRoom = searchByName(form.elements.namedItem("start").value);
+	var endRoom = searchByName(form.elements.namedItem("end").value);
+	var start =  floors[startRoom.substring(0,2)][startRoom];
+	var startFloor = startRoom.substring(0,2);
+	var startFloorPic = document.getElementById("startFloor");
+	var startFloorPath = "static/floor" + startFloor + ".jpg";
+	startFloorPic.setAttribute("src", startFloorPath);
+	startFloorPic.setAttribute("height", "500");
+	var end = floors[endRoom.substring(0,2)][endRoom];
+	var endFloor = endRoom.substring(0,2);
+	var endFloorPic = document.getElementById("endFloor");
+	var endFloorPath = "static/floor" + endFloor + ".jpg";
+	if (startFloor != endFloor) {
+	    endFloorPic.setAttribute("src", endFloorPath);
+	    endFloorPic.setAttribute("height", "500");
+	    console.log(start.room);
+	} else {
+	    endFloorPic.setAttribute("src", "");
+	}
 	steps = pathFinder(start, end);
     } catch (err){
 	steps.push("Room not found");
