@@ -308,6 +308,7 @@ floor02["b0219"].setNorth(floor02["b0218"]);
 floor02["b0219"].setSouth(floor02["0229"]);
 floor02["b0219"].setWest(floor02["b0220"]);
 floor02["b0219"].setEast(floor02["0225"]);
+floor02["b0220"].setNorth(floor02["sB02"]);
 floor02["b0220"].setSouth(floor02["0231"]);
 floor02["b0220"].setWest(floor02["b0221"]);
 floor02["b0220"].setEast(floor02["b0219"]);
