@@ -459,6 +459,12 @@ var directionsRelative = function(directions){
 
 //take user input and translate it into our format
 var searchByName = function(room){
+    if (room == "599"){
+	room = "540";
+    }
+    if (room == "616"){
+	room == "0615A";
+    }
     if (room.length == 3){
 	room = "0" + room;
     }/*
