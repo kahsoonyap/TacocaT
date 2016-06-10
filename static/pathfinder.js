@@ -70,9 +70,11 @@ var pathFinder = function(start, end){
 	return "why you put the same room?";
     } else {
 	if (start.room().substring(0,2) == end.room().substring(0,2)) {
-	    return translateToEnglish(roomChecker(start, end)[1], start, end);
+	    var roomCheckerRes = roomChecker(start, end);
+	    return translateToEnglish(roomCheckerRes[1], roomCheckerRes[2], start, end);
 	} else {
-	    return translateToEnglish(endDifferentFloor(start, end), start, end);
+	    var endDifferentFloorRes = endDifferentFloor(start, end);
+	    return translateToEnglish(endDifferentFloorRes[0], endDifferentFloorRes[1], start, end);
 	}
     }
 }
@@ -106,9 +108,17 @@ var endDifferentFloor = function(start, end){
     } else {
 	upOrDown = ['down'];
     }
-    var finalDirs = upOrDown.concat(roomChecker(start, startBlock)[1]);
-    var finalDirs = roomChecker(endBlock, end)[1].concat(finalDirs);
-    return finalDirs;
+    var roomCheckerStartRes = roomChecker(start, startBlock);
+    var roomCheckerEndRes =  roomChecker(endBlock, end);
+    var finalDirs = upOrDown.concat(roomCheckerStartRes[1]);
+    var finalDirs = roomCheckerEndRes[1].concat(finalDirs);
+    var finalPathArray = roomCheckerEndRes[2].concat(roomCheckerStartRes[2]);
+    //console.log(finalPathArray);
+    var ret = [];
+    ret.push(finalDirs);
+    ret.push(finalPathArray);
+    //console.log(ret[1]);
+    return ret;
 } 
 
 var roomChecker = function(curr, dest){
@@ -155,9 +165,10 @@ var roomChecker = function(curr, dest){
 }
 
 
-var translateToEnglish = function(directions, start, end){
+var translateToEnglish = function(directions, pathArray, start, end){
     resetChecked(floors);
     directions.reverse();
+    pathArray.reverse();
     start = parseInt(start.room()[1]);
     end = parseInt(end.room()[1]);
     if (start == 0) {
@@ -173,7 +184,13 @@ var translateToEnglish = function(directions, start, end){
     } else {
 	numFlights = numFlights + " floors";
     }
+    var pathArrayRooms = [];
+    var i;
+    for (i = 0; i < pathArray.length; i++) {
+	pathArrayRooms[i] = pathArray[i].room();
+    }
     console.log(directions);
+    console.log(pathArrayRooms);
     var n = 1;
     var str = "";
     if (relDirs[0] == "dne") {                                          
@@ -191,6 +208,8 @@ var translateToEnglish = function(directions, start, end){
     }
 
     for (var i = 1; i < directions.length; i ++){
+	var currBlock = pathArray[i];
+	var currBlockName = pathArrayRooms[i];
 	if (directions[i] == "up") {
 	    str += n + ". Go " + numFlights + " up the stairs<br>";
 	    n+=1;
@@ -200,6 +219,11 @@ var translateToEnglish = function(directions, start, end){
 	}
 	else if (directions[i] != directions[i-1] && directions[i] != "up" && directions[i] != "down" && directions[i-1] != "up" && directions[i-1] != "down"){
 	    str += n + ". Turn " + relDirs[i-1] + " and walk forwards<br>";
+	    n+=1;
+	}
+
+	else if (directions[i] != directions[i-1]) {
+	    str += n + ". After exiting stairwell, head " + relDirs[i-1] + " and walk forwards<br>";
 	    n+=1;
 	}
 	if (i == directions.length - 1){
@@ -294,6 +318,50 @@ var directionsRelative = function(directions){
 		break;
 	    case "west":
 		dirRel.push("dne");
+		break;
+	    case "up":
+		dirRel.push("dne");
+		break;
+	    case "down":
+		dirRel.push("dne");
+		break;
+	    }
+	    break;
+	case "up":
+	    switch(directions[i+1]) {
+	    case "north":
+		dirRel.push("north");
+		break;
+	    case "south":
+		dirRel.push("south");
+		break;
+	    case "east":
+		dirRel.push("east");
+		break;
+	    case "west":
+		dirRel.push("west");
+		break;
+	    case "up":
+		dirRel.push("dne");
+		break;
+	    case "down":
+		dirRel.push("dne");
+		break;
+	    }
+	    break;
+	case "down":
+	    switch(directions[i+1]) {
+	    case "north":
+		dirRel.push("north");
+		break;
+	    case "south":
+		dirRel.push("south");
+		break;
+	    case "east":
+		dirRel.push("east");
+		break;
+	    case "west":
+		dirRel.push("west");
 		break;
 	    case "up":
 		dirRel.push("dne");
@@ -407,7 +475,7 @@ var returnDirections = function(e) {
 	steps = pathFinder(start, end);
     } catch (err){
 	steps.push("Room not found");
-    }    
+    }
     stepsP.innerHTML = steps;
 };
 
