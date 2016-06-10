@@ -199,7 +199,7 @@ var translateToEnglish = function(directions, start, end){
 	    n+=1;
 	}
 	else if (directions[i] != directions[i-1] && directions[i] != "up" && directions[i] != "down" && directions[i-1] != "up" && directions[i-1] != "down"){
-	    str += n + ". Turn " + relDirs[i] + " and walk forwards<br>";
+	    str += n + ". Turn " + relDirs[i-1] + " and walk forwards<br>";
 	    n+=1;
 	}
 	if (i == directions.length - 1){
@@ -213,7 +213,7 @@ var translateToEnglish = function(directions, start, end){
 var directionsRelative = function(directions){
     var dirRel = [];
     var i;
-    for (i = 0; i < directions.length - 2; i++) {
+    for (i = 0; i < directions.length - 1; i++) {
 	switch(directions[i]) {
 	case "north":
 	    switch(directions[i+1]) {
@@ -235,8 +235,8 @@ var directionsRelative = function(directions){
 	    case "down":
 		dirRel.push("dne");
 		break;
-	    break;
 	    }
+	    break;
 	case "south":
 	    switch(directions[i+1]) {
 	    case "north":
