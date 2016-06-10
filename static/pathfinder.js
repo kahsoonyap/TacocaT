@@ -294,15 +294,80 @@ var directionsRelative = function(directions){
     return dirRel;
 }
 
+var searchByName = function(room){
+    if (room.toLowerCase() == "principal's office"){
+	return "0107";
+    } else if (room.toLowerCase() == "theater"){
+	return "0170";
+    } else if (room.toLowerCase() == "pool"){
+	return "0186";
+    } else if (room.toLowerCase() == "attendance"){
+	return "0205";
+    } else if (room.toLowerCase() == "general office"){
+	return "0209";
+    } else if (room.toLowerCase() == "mail"){
+	return "0211";
+    } else if (room.toLowerCase() == "college office"){
+	return "0225";
+    } else if (room.toLowerCase() == "memorial classroom"){
+	return "0229";
+    } else if (room.toLowerCase() == "programming office"){
+	return "0239";
+    } else if (room.toLowerCase() == "guidance" || room.toLowerCase() == "guidance counselor"){
+	return "0236";
+    } else if(room.toLowerCase() == "su" || room.toLowerCase() == "arista"){
+	return "0260";
+    } else if(room.toLowerCase() == "school store"){
+	return "0262";
+    } else if(room.toLowerCase() == "social studies office"){
+	return "0302";
+    } else if(room.toLowerCase() == "nurse's office"){
+	return "0371";
+    } else if(room.toLowerCase() == "math office"){
+	return "0402";
+    } else if(room.toLowerCase() == "robotics"){
+	return "0451";
+    } else if(room.toLowerCase() == "cafeteria" || room.toLowerCase() == "lunchroom" || room.toLowerCase() == "cafe"){
+	return "0540";
+    } else if(room.toLowerCase() == "weight room"){
+	return "0580";
+    } else if(room.toLowerCase() == "physical education office"){
+	return "0501";
+    } else if(room.toLowerCase() == "teacher's lounge" || room.toLowerCase() == "teacher cafeteria"){
+	return "0531";
+    } else if(room.toLowerCase() == "english office"){
+	return "0601";
+    } else if(room.toLowerCase() == "615C"){
+	return "0615C";
+    } else if(room.toLowerCase() == "dance studio"){
+	return "0660";
+    } else if(room.toLowerCase() == "library"){
+	return "0615";
+    } else if(room.toLowerCase() == "615A"){
+	return "0615A";
+    } else if(room.toLowerCase() == "biology office"){
+	return "0701";
+    } else if(room.toLowerCase() == "physics office"){
+	return "0802";
+    } else if(room.toLowerCase() == "chemistry office"){
+	return "0904";
+    } else if(room.toLowerCase() == "small group"){
+	return "0926";
+    }
+    return room;
+}
+
 var returnDirections = function(e) {
     var form = document.getElementById("directions");
-    var start =  floors[form.elements.namedItem("start").value.substring(0,2)][form.elements.namedItem("start").value];
+    var startRoom = searchByName(form.elements.namedItem("start").value);
+    var endRoom = searchByName(form.elements.namedItem("end").value);  
+    var start =  floors[startRoom.substring(0,2)][startRoom];
     var startFloor = start.room().substring(0,2);
     var startFloorPic = document.getElementById("startFloor");
     var startFloorPath = "static/floor" + startFloor + ".jpg";
     startFloorPic.setAttribute("src", startFloorPath);
     startFloorPic.setAttribute("height", "500");
-    var end = floors[form.elements.namedItem("end").value.substring(0,2)][form.elements.namedItem("end").value];
+    var end = floors[endRoom.substring(0,2)][endRoom];
     var endFloor = end.room().substring(0,2);
     var endFloorPic = document.getElementById("endFloor");
     var endFloorPath = "static/floor" + endFloor + ".jpg";
@@ -316,8 +381,6 @@ var returnDirections = function(e) {
     var stepsP = document.getElementById("steps");
     var steps = pathFinder(start, end);
     stepsP.innerHTML = steps;
-    //console.log(start);
-    //console.log(end);
     resetChecked(floors);
 };
 
