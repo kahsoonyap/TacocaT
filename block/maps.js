@@ -821,6 +821,7 @@ floor06["b0611"] = block("b0611", "block");
 floor06["b0612"] = block("b0612", "block");
 floor06["b0613"] = block("b0613", "block");
 floor06["b0614"] = block("b0614", "block");
+floor06["b0615"] = block("b0615", "block");
 floor06["0601"].setWest(floor06["b0601"]);
 floor06["0615"].setNorth(floor06["b0606"]);
 floor06["0615A"].setNorth(floor06["b0610"]);
