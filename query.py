@@ -96,6 +96,7 @@ def findPath(source, dest):
     source = int(source)
     dest = int(dest)
     destFloor = getFloorOf(dest)
+    numRecur = 0
     if (source >= 1100):
         sourceFloor = destFloor
     else:
@@ -115,7 +116,11 @@ def findPath(source, dest):
             distances.append(distance(sourceXY, stairXYSource[i]) + distance(destXY, stairXYDest[i]))
         bestStaircase = allStairs[distances.index(min(distances))]
         return findPath(bestStaircase,source) + [[-1, int(destFloor)]] + findPath(bestStaircase, dest) 
-    if (dest == 239):
+    if (dest == 273 and source==1500):
+        coords = [sourceXY]
+        coords.append(destXY)
+        return coords
+    elif (dest == 239):
         if (destFloor == sourceFloor):
             dest = source
             source = 239
@@ -123,16 +128,68 @@ def findPath(source, dest):
             sourceXY = getXY(239, 2)
             destFloor = sourceFloor
             sourceFloor = 2
+    elif (dest == 273):
+        if (destFloor == sourceFloor):
+            dest = source
+            source = 273
+            destXY = sourceXY
+            sourceXY = getXY(273, 2)
+            destFloor = sourceFloor
+            sourceFloor = 2
+    elif (dest == 373):
+        if (destFloor == sourceFloor):
+            dest = source
+            source = 373
+            destXY = sourceXY
+            sourceXY = getXY(373, 3)
+            destFloor = sourceFloor
+            sourceFloor = 3
+    elif (dest == 371):
+        if (destFloor == sourceFloor):
+            dest = source
+            source = 371
+            destXY = sourceXY
+            sourceXY = getXY(371, 3)
+            destFloor = sourceFloor
+            sourceFloor = 3
+    elif (dest == 372):
+        if (destFloor == sourceFloor):
+            dest = source
+            source = 372
+            destXY = sourceXY
+            sourceXY = getXY(372, 3)
+            destFloor = sourceFloor
+            sourceFloor = 3
     distToDest = distance(sourceXY, destXY)
     coords = [sourceXY]
     prevDirect = ""
-    print str(source) + " 129"
-    print str(dest) + " 130"
-    while(distance(sourceXY, destXY) > 0):
-        print str(source) + " " + str(dest) + " 132"
+    while(distance(sourceXY, destXY) > 0 and numRecur < 100):
+        print numRecur
+        numRecur+=1
         if (source == 6 and dest == 273):
             coords.append(destXY)
             return coords
+        if (source == 5 and dest == 371):
+            coords.append(destXY)
+            return coords
+        if (source == 5 and dest == 372):
+            coords.append(destXY)
+            return coords
+        if (source == 5 and dest == 373):
+            coords.append(destXY)
+            return coords
+        if (source == 5 and dest == 313):
+            source = 7
+            sourceXY = getXY(7 , 3);
+            coords.append(sourceXY);
+        if (source == 5 and dest == 311):
+            source = 7
+            sourceXY = getXY(7 , 3);
+            coords.append(sourceXY);
+        if (source == 5 and dest == 315):
+            source = 7
+            sourceXY = getXY(7 , 3);
+            coords.append(sourceXY);
         distToDest = distance(sourceXY, destXY)
         left = getIntersect(source, "left",sourceFloor)
         if (left != "null"):
@@ -151,7 +208,6 @@ def findPath(source, dest):
             down = int(down)
             downXY = getXY(down,sourceFloor)
         if (math.fabs(sourceXY[1] - destXY[1])/ sourceXY[1] < .1):
-            print "this should happen ln 143 " + str(source) 
             if (sourceXY[0] > destXY[0]):
                 if (left != "null" and prevDirect != "left"):
                     if (distance(leftXY, sourceXY) > distToDest):
@@ -160,33 +216,57 @@ def findPath(source, dest):
                         sourceXY = destXY
                         return coords
                     else:
-                        print "this should go thru 152"
                         coords.append(leftXY)
                         source = left
                         sourceXY = leftXY
                         prevDirect = "right"
-                elif (up != "null" and prevDirect != "up"):
-                    if (distance(upXY, sourceXY) > distToDest):
-                        coords.append(destXY)
-                        source = dest
-                        sourceXY = destXY
-                        return coords
+                elif ((up != "null" and prevDirect != "up") or (down != "null" and prevDirect != "down")):
+                    if (sourceXY[1] > destXY[1]):
+                        if (up!= "null" and prevDirect != "up"):
+                            if (distance(upXY, sourceXY) > distToDest):
+                                coords.append(destXY)
+                                source = dest
+                                sourceXY = destXY
+                                return coords
+                            else:
+                                coords.append(upXY)
+                                source = up
+                                sourceXY = upXY
+                                prevDirect = "down"
+                        if (down!= "null" and prevDirect != "down"):
+                            if (distance(downXY, sourceXY) > distToDest):
+                                coords.append(destXY)
+                                source = dest
+                                sourceXY = destXY
+                                return coords
+                            else:
+                                coords.append(downXY)
+                                source = down
+                                sourceXY = downXY
+                                prevDirect = "up"
                     else:
-                        coords.append(upXY)
-                        source = up
-                        sourceXY = upXY
-                        prevDirect = "down"
-                elif (down != "null" and prevDirect != "down"):
-                    if (distance(downXY, sourceXY) > distToDest):
-                        coords.append(destXY)
-                        source = dest
-                        sourceXY = destXY
-                        return coords
-                    else:
-                        coords.append(downXY)
-                        source = down
-                        sourceXY = downXY
-                        prevDirect = "up"
+                        if (down!= "null" and prevDirect != "down"):
+                            if (distance(downXY, sourceXY) > distToDest):
+                                coords.append(destXY)
+                                source = dest
+                                sourceXY = destXY
+                                return coords
+                            else:
+                                coords.append(downXY)
+                                source = down
+                                sourceXY = downXY
+                                prevDirect = "up"
+                        if (up!= "null" and prevDirect != "up"):
+                            if (distance(upXY, sourceXY) > distToDest):
+                                coords.append(destXY)
+                                source = dest
+                                sourceXY = destXY
+                                return coords
+                            else:
+                                coords.append(upXY)
+                                source = up
+                                sourceXY = upXY
+                                prevDirect = "down"
                 else:
                     coords.append(destXY)
                     source = dest
@@ -204,28 +284,53 @@ def findPath(source, dest):
                         source = right
                         sourceXY = rightXY
                         prevDirect = "left"
-                elif (up != "null" and prevDirect != "up"):
-                    if (distance(upXY, sourceXY) > distToDest):
-                        coords.append(destXY)
-                        source = dest
-                        sourceXY = destXY
-                        return coords
+                elif ((up != "null" and prevDirect != "up") or (down != "null" and prevDirect != "down")):
+                    if (sourceXY[1] > destXY[1]):
+                        if (up!= "null" and prevDirect !="up"):
+                            if (distance(upXY, sourceXY) > distToDest):
+                                coords.append(destXY)
+                                source = dest
+                                sourceXY = destXY
+                                return coords
+                            else:
+                                coords.append(upXY)
+                                source = up
+                                sourceXY = upXY
+                                prevDirect = "down"
+                        if (down!= "null" and prevDirect != "down"):
+                            if (distance(downXY, sourceXY) > distToDest):
+                                coords.append(destXY)
+                                source = dest
+                                sourceXY = destXY
+                                return coords
+                            else:
+                                coords.append(downXY)
+                                source = down
+                                sourceXY = downXY
+                                prevDirect = "up"
                     else:
-                        coords.append(upXY)
-                        source = up
-                        sourceXY = upXY
-                        prevDirect = "down"
-                elif (down != "null" and prevDirect != "down"):
-                    if (distance(downXY, sourceXY) > distToDest):
-                        coords.append(destXY)
-                        source = dest
-                        sourceXY = destXY
-                        return coords
-                    else:
-                        coords.append(downXY)
-                        source = down
-                        sourceXY = downXY
-                        prevDirect = "up"
+                        if (down!= "null" and prevDirect != "down"):
+                            if (distance(downXY, sourceXY) > distToDest):
+                                coords.append(destXY)
+                                source = dest
+                                sourceXY = destXY
+                                return coords
+                            else:
+                                coords.append(downXY)
+                                source = down
+                                sourceXY = downXY
+                                prevDirect = "up"
+                        if (up!= "null" and prevDirect != "up"):
+                            if (distance(upXY, sourceXY) > distToDest):
+                                coords.append(destXY)
+                                source = dest
+                                sourceXY = destXY
+                                return coords
+                            else:
+                                coords.append(upXY)
+                                source = up
+                                sourceXY = upXY
+                                prevDirect = "down"
                 else:
                     coords.append(destXY)
                     source = dest
@@ -244,35 +349,59 @@ def findPath(source, dest):
                         source = up
                         sourceXY = upXY
                         prevDirect = "down"
-                elif (left != "null" and prevDirect != "left"):
-                    if (distance(leftXY, sourceXY) > distToDest):
-                        coords.append(destXY)
-                        source = dest
-                        sourceXY = destXY
-                        return coords
-                    else:
-                        coords.append(leftXY)
-                        source = left
-                        sourceXY = leftXY
-                        prevDirect = "right"
-                elif (right != "null" and prevDirect != "right"):
-                    if (distance(rightXY, sourceXY) > distToDest):
-                        coords.append(destXY)
-                        source = dest
-                        sourceXY = destXY
-                        return coords
-                    else:
-                        coords.append(rightXY)
-                        source = right
-                        sourceXY = rightXY
-                        prevDirect = "left"
+                elif ((left != "null" and prevDirect != "left") or (right != "null" and prevDirect != "right")):
+                    if (sourceXY[0] > destXY[1]):
+                        if (left != "null" and prevDirect != "left"):
+                            if (distance(leftXY, sourceXY) > distToDest):
+                                coords.append(destXY)
+                                source = dest
+                                sourceXY = destXY
+                                return coords
+                            else:
+                                coords.append(leftXY)
+                                source = left
+                                sourceXY = leftXY
+                                prevDirect = "right"
+                        if (right != "null" and prevDirect != "right"):
+                            if (distance(rightXY, sourceXY) > distToDest):
+                                coords.append(destXY)
+                                source = dest
+                                sourceXY = destXY
+                                return coords
+                            else:
+                                coords.append(rightXY)
+                                source = right
+                                sourceXY = rightXY
+                                prevDirect = "left"
+                    else: 
+                        if (right != "null" and prevDirect != "right"):
+                            if (distance(rightXY, sourceXY) > distToDest):
+                                coords.append(destXY)
+                                source = dest
+                                sourceXY = destXY
+                                return coords
+                            else:
+                                coords.append(rightXY)
+                                source = right
+                                sourceXY = rightXY
+                                prevDirect = "left"
+                        if (left != "null" and prevDirect != "left"):
+                            if (distance(leftXY, sourceXY) > distToDest):
+                                coords.append(destXY)
+                                source = dest
+                                sourceXY = destXY
+                                return coords
+                            else:
+                                coords.append(leftXY)
+                                source = left
+                                sourceXY = leftXY
+                                prevDirect = "right"
                 else:
                     coords.append(destXY)
                     source = dest
                     sourceXY = destXY
                     return coords
             else:
-                print "ln 275"
                 if (down != "null" and prevDirect != "down"):
                     if (distance(downXY, sourceXY) > distToDest):
                         coords.append(destXY)
@@ -280,33 +409,57 @@ def findPath(source, dest):
                         sourceXY = destXY
                         return coords
                     else:
-                        print "ln 283"
                         coords.append(downXY)
                         source = down
                         sourceXY = downXY
                         prevDirect = "up"
-                elif (left != "null" and prevDirect != "left"):
-                    if (distance(leftXY, sourceXY) > distToDest):
-                        coords.append(destXY)
-                        source = dest
-                        sourceXY = destXY
-                        return coords
-                    else:
-                        coords.append(leftXY)
-                        source = left
-                        sourceXY = leftXY
-                        prevDirect = "right"
-                elif (right != "null" and prevDirect != "right"):
-                    if (distance(rightXY, sourceXY) > distToDest):
-                        coords.append(destXY)
-                        source = dest
-                        sourceXY = destXY
-                        return coords
-                    else:
-                        coords.append(leftXY)
-                        source = left
-                        sourceXY = leftXY
-                        prevDirect = "right"
+                elif ((left != "null" and prevDirect != "left") or (right != "null" and prevDirect != "right")):
+                    if (sourceXY[0] > destXY[1]):
+                        if (left != "null" and prevDirect != "left"):
+                            if (distance(leftXY, sourceXY) > distToDest):
+                                coords.append(destXY)
+                                source = dest
+                                sourceXY = destXY
+                                return coords
+                            else:
+                                coords.append(leftXY)
+                                source = left
+                                sourceXY = leftXY
+                                prevDirect = "right"
+                        if (right != "null" and prevDirect != "right"):
+                            if (distance(rightXY, sourceXY) > distToDest):
+                                coords.append(destXY)
+                                source = dest
+                                sourceXY = destXY
+                                return coords
+                            else:
+                                coords.append(rightXY)
+                                source = right
+                                sourceXY = rightXY
+                                prevDirect = "left"
+                    else: 
+                        if (right != "null" and prevDirect != "right"):
+                            if (distance(rightXY, sourceXY) > distToDest):
+                                coords.append(destXY)
+                                source = dest
+                                sourceXY = destXY
+                                return coords
+                            else:
+                                coords.append(rightXY)
+                                source = right
+                                sourceXY = rightXY
+                                prevDirect = "left"
+                        if (left != "null" and prevDirect != "left"):
+                            if (distance(leftXY, sourceXY) > distToDest):
+                                coords.append(destXY)
+                                source = dest
+                                sourceXY = destXY
+                                return coords
+                            else:
+                                coords.append(leftXY)
+                                source = left
+                                sourceXY = leftXY
+                                prevDirect = "right"
                 else:
                     coords.append(destXY)
                     source = dest
@@ -319,16 +472,29 @@ def findPath(source, dest):
                     source = left
                     sourceXY = leftXY
                     prevDirect = "right"
-                elif (up != "null" and prevDirect != "up"):
-                    coords.append(upXY)
-                    source = up
-                    sourceXY = upXY
-                    prevDirect = "down"
-                elif (down!= "null" and prevDirect != "down"):
-                    coords.append(downXY)
-                    source = down
-                    sourceXY = downXY
-                    prevDirect =  "up"
+                elif ((up != "null" and prevDirect != "up") or (down!= "null" and prevDirect != "down")):
+                    if (sourceXY[1] > destXY[1]):
+                        if (up != "null" and prevDirect != "up"):
+                            coords.append(upXY)
+                            source = up
+                            sourceXY = upXY
+                            prevDirect = "down"
+                        if (down != "null" and prevDirect != "down"):
+                            coords.append(downXY)
+                            source = down
+                            sourceXY = downXY
+                            prevDirect =  "up"
+                    else :
+                        if (down != "null" and prevDirect != "down"):
+                            coords.append(downXY)
+                            source = down
+                            sourceXY = downXY
+                            prevDirect =  "up"                        
+                        if (up != "null" and prevDirect != "up"):
+                            coords.append(upXY)
+                            source = up
+                            sourceXY = upXY
+                            prevDirect = "down"
                 else:
                     coords.append(rightXY)
                     source = right
@@ -340,16 +506,29 @@ def findPath(source, dest):
                     source = right
                     sourceXY = rightXY
                     prevDirect = "left"
-                elif (up != "null" and prevDirect != "up"):
-                    coords.append(upXY)
-                    source = up
-                    sourceXY = upXY
-                    prevDirect = "down"
-                elif (down!= "null" and prevDirect != "down"):
-                    coords.append(downXY)
-                    source = down
-                    sourceXY = downXY
-                    prevDirect =  "up"
+                elif ((up != "null" and prevDirect != "up") or (down!= "null" and prevDirect != "down")):
+                    if (sourceXY[1] > destXY[1]):
+                        if (up != "null" and prevDirect != "up"):
+                            coords.append(upXY)
+                            source = up
+                            sourceXY = upXY
+                            prevDirect = "down"
+                        if (down != "null" and prevDirect != "down"):
+                            coords.append(downXY)
+                            source = down
+                            sourceXY = downXY
+                            prevDirect =  "up"
+                    else :
+                        if (down != "null" and prevDirect != "down"):
+                            coords.append(downXY)
+                            source = down
+                            sourceXY = downXY
+                            prevDirect =  "up"                        
+                        if (up != "null" and prevDirect != "up"):
+                            coords.append(upXY)
+                            source = up
+                            sourceXY = upXY
+                            prevDirect = "down"
                 else:
                     coords.append(leftXY)
                     source = left
@@ -362,37 +541,65 @@ def findPath(source, dest):
                     source = up
                     sourceXY = upXY
                     prevDirect = "down"
-                elif (left != "null" and prevDirect != "left"):
-                    coords.append(leftXY)
-                    source = left
-                    sourceXY = leftXY
-                    prevDirect = "right"
-                elif (right!= "null" and prevDirect != "right"):
-                    coords.append(rightXY)
-                    source = right
-                    sourceXY = rightXY
-                    prevDirect =  "left"
+                elif ((left != "null" and prevDirect != "left") or (right!= "null" and prevDirect != "right")):
+                    if (sourceXY[0] < destXY[0]):
+                        if (left!="null" and prevDirect != "left"):
+                            coords.append(leftXY)
+                            source = left
+                            sourceXY = leftXY
+                            prevDirect = "right"
+                        if (right != "null" and prevDirect != "right"):
+                            coords.append(rightXY)
+                            source = right
+                            sourceXY = rightXY
+                            prevDirect =  "left"
+                    else:
+                        if (right != "null" and prevDirect != "right"):
+                            coords.append(rightXY)
+                            source = right
+                            sourceXY = rightXY
+                            prevDirect =  "left"  
+                        if (left!="null" and prevDirect != "left"):
+                            coords.append(leftXY)
+                            source = left
+                            sourceXY = leftXY
+                            prevDirect = "right"
                 else:
-                    coords.append(downXY)
-                    source = down
-                    sourceXY = downXY
-                    prevDirect = "up"
+                    if (down!="null"):
+                        coords.append(downXY)
+                        source = down
+                        sourceXY = downXY
+                        prevDirect = "up"
+
             else:
                 if (down != "null" and prevDirect != "down"):
                     coords.append(downXY)
                     source = down
                     sourceXY = downXY
                     prevDirect = "up"
-                elif (left != "null" and prevDirect != "left"):
-                    coords.append(leftXY)
-                    source = left
-                    sourceXY = leftXY
-                    prevDirect = "right"
-                elif (right!= "null" and prevDirect != "right"):
-                    coords.append(rightXY)
-                    source = right
-                    sourceXY = rightXY
-                    prevDirect =  "left"
+                elif ((left != "null" and prevDirect != "left") or (right!= "null" and prevDirect != "right")):
+                    if (sourceXY[0] > destXY[0]):
+                        if (left!="null" and prevDirect != "left"):
+                            coords.append(leftXY)
+                            source = left
+                            sourceXY = leftXY
+                            prevDirect = "right"
+                        if (right != "null" and prevDirect != "right"):
+                            coords.append(rightXY)
+                            source = right
+                            sourceXY = rightXY
+                            prevDirect =  "left"
+                    else:
+                        if (right != "null" and prevDirect != "right"):
+                            coords.append(rightXY)
+                            source = right
+                            sourceXY = rightXY
+                            prevDirect =  "left"  
+                        if (left!="null" and prevDirect != "left"):
+                            coords.append(leftXY)
+                            source = left
+                            sourceXY = leftXY
+                            prevDirect = "right"
                 else:
                     coords.append(upXY)
                     source = up
