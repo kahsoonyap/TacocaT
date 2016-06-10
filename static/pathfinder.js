@@ -1,8 +1,11 @@
 var button = document.getElementById("submit");
 
+//"default block"
 var wall = {type: function(){return "wall"}};
 
+//block class
 var block = function(roomName, blockType){
+    //variables
     var room = roomName;
     var type = blockType;
     var north = wall;
@@ -11,6 +14,7 @@ var block = function(roomName, blockType){
     var west = wall;
     var checked = false;
     
+    //get methods
     var getName = function(){
 	return room;
     }
@@ -33,6 +37,7 @@ var block = function(roomName, blockType){
 	return checked;
     }
 
+    //set methods
     var setNorth = function(blk){
 	north = blk;
     }
@@ -65,9 +70,10 @@ var block = function(roomName, blockType){
     }
 }
 
+//wrapper function
 var pathFinder = function(start, end){
-    if (start.room() == end.room()){
-	return "why you put the same room?";
+    if (start == end){
+	return ["Please enter two different rooms"];
     } else {
 	if (start.room().substring(0,2) == end.room().substring(0,2)) {
 	    return translateToEnglish(roomChecker(start, end)[1], start, end);
@@ -153,7 +159,6 @@ var roomChecker = function(curr, dest){
     }
     return [false, [], []];
 }
-
 
 var translateToEnglish = function(directions, start, end){
     resetChecked(floors);
@@ -422,51 +427,3 @@ var resetChecked = function(data){
 }
 
 button.addEventListener('click', returnDirections);
-
-var block1 = block("block1", "hall");
-var block2 = block("block2", "hall");
-var block3 = block("block3", "hall");
-var block4 = block("block4", "hall");
-
-var r601 = block("601", "room");
-var r602 = block("602", "room");
-var r603 = block("603", "room");
-var r640 = block("640", "room");
-
-var rooms = {}
-rooms["601"] = r601;
-rooms["602"] = r602;
-rooms["603"] = r603;
-rooms["640"] = r640;
-rooms["stairA6"] = block("stairA6", "room");
-rooms["stairA5"] = block("stairA5", "room");
-rooms["540"] = block("540", "room");
-var blocks = {}
-blocks["1"] = block1;
-blocks["2"] = block2;
-blocks["3"] = block3;
-blocks["4"] = block4;
-
-r601.setSouth(block1);
-block1.setNorth(r601);
-r640.setNorth(block4);
-block4.setSouth(r640);
-
-r602.setSouth(block2);
-block2.setNorth(r602);
-r603.setWest(block4);
-block4.setEast(r603);
-
-block4.setNorth(rooms.stairA6);
-rooms.stairA6.setSouth(block4);
-rooms["540"].setEast(rooms.stairA5);
-rooms.stairA5.setWest(rooms["540"]);
-
-block1.setEast(block2);
-block2.setEast(block3);
-block3.setEast(block4);
-
-block4.setWest(block3);
-block3.setWest(block2);
-block2.setWest(block1);
-
