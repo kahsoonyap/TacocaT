@@ -243,7 +243,21 @@ var translateToEnglish = function(directions, pathArray, start, end){
 	else if (directions[i] != directions[i-1] && directions[i] != "up" && directions[i] != "down" && directions[i-1] != "up" && directions[i-1] != "down" && i < directions.length - 1){
 	    var roomNear = "none";
 	    console.log(currBlock.room());
-	    if (currBlock.north().type() == "room"){
+	    if (directions[i+1] == "up" || directions[i+1] == "down") {
+		if (currBlock.north().room().substring(0,1) == "s") {
+		    roomNear = currBlock.north().room();
+		}
+		else if (currBlock.south().room().substring(0,1) == "s") {
+		    roomNear = currBlock.south().room();
+		}
+		else if (currBlock.east().room().substring(0,1) == "s") {
+		    roomNear = currBlock.east().room();
+		}
+		else if (currBlock.west().room().substring(0,1) == "s") {
+		    roomNear = currBlock.west().room();
+		}
+	    }
+	    else if (currBlock.north().type() == "room"){
 		roomNear = currBlock.north().room();
 	    }
 	    else if (currBlock.south().type() == "room"){
@@ -258,17 +272,20 @@ var translateToEnglish = function(directions, pathArray, start, end){
 	    if (roomNear.substring(0, 1) == "0") {
 		roomNear = roomNear.substring(1);
 	    }
-		roomNear = "room " + roomNear;
+	    roomNear = "room " + roomNear;
 	    if (roomNear.substring(5, 7) == "sA") {
 		roomNear = "the eastern stairwell";
 	    }
 	    if (roomNear.substring(5, 7) == "sB") {
 		roomNear = "the central stairwell";
 	    }
-	    if (roomNear.substring(5, 7) == "sC") {
+	    if (roomNear.substring(5, 7) == "sD") {
 		roomNear = "the hudson stairwell";
 	    }
-	    if (roomNear != "room none") {
+	    if (directions[i+1] == "up" || directions[i+1] == "down") {
+		str += n + ". Turn " + relDirs[i-1] + " into " + roomNear + "<br>";
+	    }
+	    else if (roomNear != "room none") {
 		str += n + ". Turn " + relDirs[i-1] + " near " + roomNear + " and walk forwards<br>";
 	    } else {
 		str += n + ". Turn " + relDirs[i-1] + " and walk forwards<br>";
