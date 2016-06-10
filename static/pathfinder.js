@@ -1,8 +1,11 @@
 var button = document.getElementById("submit");
 
+//"default block"
 var wall = {type: function(){return "wall"}};
 
+//block class
 var block = function(roomName, blockType){
+    //variables
     var room = roomName;
     var type = blockType;
     var north = wall;
@@ -11,6 +14,7 @@ var block = function(roomName, blockType){
     var west = wall;
     var checked = false;
     
+    //get methods
     var getName = function(){
 	return room;
     }
@@ -33,6 +37,7 @@ var block = function(roomName, blockType){
 	return checked;
     }
 
+    //set methods
     var setNorth = function(blk){
 	north = blk;
     }
@@ -65,10 +70,12 @@ var block = function(roomName, blockType){
     }
 }
 
-var pathFinder = function(start, end){
-    if (start.room() == end.room()){
-	return "why you put the same room?";
+//wrapper function
+var pathFinder = function(start, end){  
+    if (start == end){
+	return ["Please enter two different rooms"];
     } else {
+	//if the first room and the second room are on the same floor
 	if (start.room().substring(0,2) == end.room().substring(0,2)) {
 	    var roomCheckerRes = roomChecker(start, end);
 	    return translateToEnglish(roomCheckerRes[1], roomCheckerRes[2], start, end);
@@ -80,13 +87,17 @@ var pathFinder = function(start, end){
 }
 
 var endDifferentFloor = function(start, end){
+    //first two numbers are the floor of the room
     var startFloor = start.room().substring(0,2);
     var endFloor = end.room().substring(0,2);
+    //third and fourth numbers are the room bumber
     var startRoom = start.room().substring(2,4); 
     var endRoom = end.room().substring(2,4);
-    var midPoint = (parseInt(startRoom) + parseInt(endRoom)) / 2;
     var startBlock = start;
     var endBlock = end;
+    //attempt at finding the closest staircase
+    //use different stairs based on the results
+    var midPoint = (parseInt(startRoom) + parseInt(endRoom)) / 2;
     if (midPoint < 17){
 	startBlock = floors[startFloor]["sA" + startFloor];
 	endBlock = floors[endFloor]["sA" + endFloor];
@@ -94,12 +105,12 @@ var endDifferentFloor = function(start, end){
 	startBlock = floors[startFloor]["sB" + startFloor];
 	endBlock = floors[endFloor]["sB" + endFloor];
     } else {
-	if (parseInt(startFloor) % 2 == 0){
-	    startBlock = floors[startFloor]["sD" + startFloor];
-	    endBlock = floors[endFloor]["sD" + endFloor];
-	} else {
+	if (parseInt(startFloor) <= 4 && parseInt(startFloor) % 2 == 1){
 	    startBlock = floors[startFloor]["sC" + startFloor];
 	    endBlock = floors[endFloor]["sC" + endFloor];
+	} else {
+	    startBlock = floors[startFloor]["sD" + startFloor];
+	    endBlock = floors[endFloor]["sD" + endFloor];
 	}
     }
     var upOrDown;
@@ -121,33 +132,45 @@ var endDifferentFloor = function(start, end){
     return ret;
 } 
 
+//recursively find path from curr to dest
+//does not guarantee shortest path
+//may be differnt path than visual method
+//prioritizes north -> south -> east -> west
+//returns a list with three elements
+//[boolean, [list of directions], [list of blocks passed]]
 var roomChecker = function(curr, dest){
+    //as long as curr is not a wall
     if (curr.type() != "wall") {
-	console.log(curr.room());
-	console.log(curr.checked());
+	//check to see if curr is the target room
 	if (curr.room() == dest.room()){
 	    console.log("path found");
 	    return [true, [], []];
+	//otherwise if curr hasn't been checked yet
 	} else if (!curr.checked()){
+	    //toggle checked to true
 	    curr.setChecked(true);
+	    //check if northern path works
 	    var n = roomChecker(curr.north(), dest);
 	    if (n[0]) {
 		n[1].push("north");
 		n[2].push(curr);
 		return [true, n[1], n[2]];
 	    } else {
+		//check if southern path works
 		var s = roomChecker(curr.south(), dest);
 		if (s[0]) {
 		    s[1].push("south");
 		    s[2].push(curr);
 		    return [true, s[1], s[2]];
 		} else {
+		    //check if eastern path works
 		    var e = roomChecker(curr.east(), dest);
 		    if (e[0]) {
 			e[1].push("east");
 			e[2].push(curr)
 			return [true, e[1], e[2]];
 		    } else {
+			//check if western path works
 			var w = roomChecker(curr.west(), dest);
 			if (w[0]) {
 			    w[1].push("west");
@@ -164,7 +187,7 @@ var roomChecker = function(curr, dest){
     return [false, [], []];
 }
 
-
+//convert list into some kind of english
 var translateToEnglish = function(directions, pathArray, start, end){
     resetChecked(floors);
     directions.reverse();
@@ -382,6 +405,7 @@ var directionsRelative = function(directions){
     return dirRel;
 }
 
+//take user input and translate it into our format
 var searchByName = function(room){
     if (room.length == 3){
 	room = "0" + room;
@@ -428,13 +452,13 @@ var searchByName = function(room){
 	return "0531";
     } else if(room.toLowerCase() == "english office"){
 	return "0601";
-    } else if(room.toLowerCase() == "615C"){
+    } else if(room.toLowerCase() == "615c"){
 	return "0615C";
     } else if(room.toLowerCase() == "dance studio"){
 	return "0660";
     } else if(room.toLowerCase() == "library"){
 	return "0615";
-    } else if(room.toLowerCase() == "615A"){
+    } else if(room.toLowerCase() == "615a"){
 	return "0615A";
     } else if(room.toLowerCase() == "biology office"){
 	return "0701";
@@ -448,30 +472,36 @@ var searchByName = function(room){
     return room;
 }
 
+//takes input and adds directions to the page
 var returnDirections = function(e) {
-    var form = document.getElementById("directions");
-    var startRoom = searchByName(form.elements.namedItem("start").value);
-    var endRoom = searchByName(form.elements.namedItem("end").value);
-    var start =  floors[startRoom.substring(0,2)][startRoom];
-    var startFloor = startRoom.substring(0,2);
-    var startFloorPic = document.getElementById("startFloor");
-    var startFloorPath = "static/floor" + startFloor + ".jpg";
-    startFloorPic.setAttribute("src", startFloorPath);
-    startFloorPic.setAttribute("height", "500");
-    var end = floors[endRoom.substring(0,2)][endRoom];
-    var endFloor = endRoom.substring(0,2);
-    var endFloorPic = document.getElementById("endFloor");
-    var endFloorPath = "static/floor" + endFloor + ".jpg";
-    if (startFloor != endFloor) {
-	endFloorPic.setAttribute("src", endFloorPath);
-	endFloorPic.setAttribute("height", "500");
-	console.log(start.room);
-    } else {
-	endFloorPic.setAttribute("src", "");
-    }
     var stepsP = document.getElementById("steps");
     var steps = [];
     try {
+	var form = document.getElementById("directions");
+	//convert input into our format
+	var startRoom = searchByName(form.elements.namedItem("start").value);
+	form.elements.namedItem("start").value = "";
+	var endRoom = searchByName(form.elements.namedItem("end").value);
+	form.elements.namedItem("end").value = "";
+	//find the room in the dictionary and get the image
+	var start =  floors[startRoom.substring(0,2)][startRoom];
+	var startFloor = startRoom.substring(0,2);
+	var startFloorPic = document.getElementById("startFloor");
+	var startFloorPath = "static/floor" + startFloor + ".jpg";
+	startFloorPic.setAttribute("src", startFloorPath);
+	startFloorPic.setAttribute("height", "500");
+	var end = floors[endRoom.substring(0,2)][endRoom];
+	var endFloor = endRoom.substring(0,2);
+	var endFloorPic = document.getElementById("endFloor");
+	var endFloorPath = "static/floor" + endFloor + ".jpg";
+	//if not the same floor display two different images
+	if (startFloor != endFloor) {
+	    endFloorPic.setAttribute("src", endFloorPath);
+	    endFloorPic.setAttribute("height", "500");
+	    console.log(start.room);
+	} else {
+	    endFloorPic.setAttribute("src", "");
+	}
 	steps = pathFinder(start, end);
     } catch (err){
 	steps.push("Room not found");
@@ -479,6 +509,7 @@ var returnDirections = function(e) {
     stepsP.innerHTML = steps;
 };
 
+//resets checked value in all blocks back to false
 var resetChecked = function(data){
     for (var key in data){
 	if (data.hasOwnProperty(key)){
@@ -492,51 +523,3 @@ var resetChecked = function(data){
 }
 
 button.addEventListener('click', returnDirections);
-
-var block1 = block("block1", "hall");
-var block2 = block("block2", "hall");
-var block3 = block("block3", "hall");
-var block4 = block("block4", "hall");
-
-var r601 = block("601", "room");
-var r602 = block("602", "room");
-var r603 = block("603", "room");
-var r640 = block("640", "room");
-
-var rooms = {}
-rooms["601"] = r601;
-rooms["602"] = r602;
-rooms["603"] = r603;
-rooms["640"] = r640;
-rooms["stairA6"] = block("stairA6", "room");
-rooms["stairA5"] = block("stairA5", "room");
-rooms["540"] = block("540", "room");
-var blocks = {}
-blocks["1"] = block1;
-blocks["2"] = block2;
-blocks["3"] = block3;
-blocks["4"] = block4;
-
-r601.setSouth(block1);
-block1.setNorth(r601);
-r640.setNorth(block4);
-block4.setSouth(r640);
-
-r602.setSouth(block2);
-block2.setNorth(r602);
-r603.setWest(block4);
-block4.setEast(r603);
-
-block4.setNorth(rooms.stairA6);
-rooms.stairA6.setSouth(block4);
-rooms["540"].setEast(rooms.stairA5);
-rooms.stairA5.setWest(rooms["540"]);
-
-block1.setEast(block2);
-block2.setEast(block3);
-block3.setEast(block4);
-
-block4.setWest(block3);
-block3.setWest(block2);
-block2.setWest(block1);
-
