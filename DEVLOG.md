@@ -56,14 +56,14 @@
 ## 6/5
 * adding to app.py. connecting visual route to main page.
 * changed error message for not having stuy.edu email
-* 
+
 ## 6/6
 * added floor2 to db
 * got drawing of route working on first floor only
 
 ## 6/7
 * going cross floors for visual route works.
-*
+
 ## 6/8 
 * written directions between multiple floors work now but buggy
 
