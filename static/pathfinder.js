@@ -105,12 +105,12 @@ var endDifferentFloor = function(start, end){
 	startBlock = floors[startFloor]["sB" + startFloor];
 	endBlock = floors[endFloor]["sB" + endFloor];
     } else {
-	if (parseInt(startFloor) <= 4 && parseInt(startFloor) % 2 == 0){
-	    startBlock = floors[startFloor]["sD" + startFloor];
-	    endBlock = floors[endFloor]["sD" + endFloor];
-	} else {
+	if (parseInt(startFloor) <= 4 && parseInt(startFloor) % 2 == 1){
 	    startBlock = floors[startFloor]["sC" + startFloor];
 	    endBlock = floors[endFloor]["sC" + endFloor];
+	} else {
+	    startBlock = floors[startFloor]["sD" + startFloor];
+	    endBlock = floors[endFloor]["sD" + endFloor];
 	}
     }
     var upOrDown;
