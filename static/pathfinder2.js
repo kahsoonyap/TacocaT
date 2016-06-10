@@ -539,14 +539,16 @@ var returnDirections = function(source, dest) {
 	console.log(endRoom);
 	//form.elements.namedItem("end").value = "";
 	//find the room in the dictionary and get the image
-	/*var start =  floors[startRoom.substring(0,2)][startRoom];
-	var startFloor = startRoom.substring(0,2);
+	var start =  floors[startRoom.substring(0,2)][startRoom];
+	/*var startFloor = startRoom.substring(0,2);
 	var startFloorPic = document.getElementById("startFloor");
 	var startFloorPath = "static/floor" + startFloor + ".jpg";
 	startFloorPic.setAttribute("src", startFloorPath);
-	startFloorPic.setAttribute("height", "500");
+	startFloorPic.setAttribute("height", "500");*/
 	var end = floors[endRoom.substring(0,2)][endRoom];
-	var endFloor = endRoom.substring(0,2);
+	console.log(start);
+	console.log(end);
+	/*var endFloor = endRoom.substring(0,2);
 	var endFloorPic = document.getElementById("endFloor");
 	var endFloorPath = "static/floor" + endFloor + ".jpg";
 	//if not the same floor display two different images
