@@ -7,6 +7,9 @@ Ho Yin Ho, Jason Shin, Javis Wu, Kah Soon Yap
 * 2.Input into console while in directory: python app.py
 * 3.In a browser goto http://localhost:8000/
 
+## Description
+Google Maps of Stuyvesant High School. Able to go from one room in school to another on all 10 floors. Gives both a visual representaiton of route to be taken and written directions. Also provides a search function to find certain room. Must have a stuy.edu email to access. 
+
 ##DEVLOG
 
 * 5/16
