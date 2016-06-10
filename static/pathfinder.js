@@ -1,4 +1,4 @@
-var button = document.getElementById("submit");
+var button = document.getElementById("button");
 
 //"default block"
 var wall = {type: function(){return "wall"}};
@@ -409,7 +409,7 @@ var directionsRelative = function(directions){
 var searchByName = function(room){
     if (room.length == 3){
 	room = "0" + room;
-    }
+    }/*
     if (room.toLowerCase() == "principal's office"){
 	return "0107";
     } else if (room.toLowerCase() == "theater"){
@@ -468,23 +468,24 @@ var searchByName = function(room){
 	return "0904";
     } else if(room.toLowerCase() == "small group"){
 	return "0926";
-    }
+    }*/
     return room;
 }
 
 //takes input and adds directions to the page
-var returnDirections = function(e) {
+var returnDirections = function(source, dest) {
+    console.log("this should trigger");
     var stepsP = document.getElementById("steps");
     var steps = [];
     try {
 	var form = document.getElementById("directions");
 	//convert input into our format
-	var startRoom = searchByName(form.elements.namedItem("start").value);
-	form.elements.namedItem("start").value = "";
-	var endRoom = searchByName(form.elements.namedItem("end").value);
-	form.elements.namedItem("end").value = "";
+	var startRoom = searchByName(source);
+	//form.elements.namedItem("start").value = "";
+	var endRoom = searchByName(dest);
+	//form.elements.namedItem("end").value = "";
 	//find the room in the dictionary and get the image
-	var start =  floors[startRoom.substring(0,2)][startRoom];
+	/*var start =  floors[startRoom.substring(0,2)][startRoom];
 	var startFloor = startRoom.substring(0,2);
 	var startFloorPic = document.getElementById("startFloor");
 	var startFloorPath = "static/floor" + startFloor + ".jpg";
@@ -501,7 +502,7 @@ var returnDirections = function(e) {
 	    console.log(start.room);
 	} else {
 	    endFloorPic.setAttribute("src", "");
-	}
+	}*/
 	steps = pathFinder(start, end);
     } catch (err){
 	steps.push("Room not found");
@@ -522,4 +523,4 @@ var resetChecked = function(data){
     }
 }
 
-button.addEventListener('click', returnDirections);
+
