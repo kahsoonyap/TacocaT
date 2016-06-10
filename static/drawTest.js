@@ -54,7 +54,6 @@ var drawPath = function drawPath(source, dest){
 	    svg2.removeChild(svg2.lastChild);
 	}
 	if (d == '"Invalid rooms"'){
-	    console.log("??/");
 	    wrongRoom.innerHTML = "Invalid Input";
 	}
 	else{
