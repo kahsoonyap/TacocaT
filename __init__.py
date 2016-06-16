@@ -4,13 +4,16 @@ import query
 import os.path
 import os
 
+#path =  os.path.dirname(__file__) + "/templates"
+path = ""
+
 app = Flask(__name__)
 @app.route("/",methods=['GET','POST'])
 def login():
     if 'logged_in' in session and session['logged_in']:
-        return render_template(os.path.dirname(__file__) + "/templates/index.html", verified=True)
+        return render_template(path + "index.html", verified=True)
     else:
-        return render_template(os.path.dirname(__file__) + "/templates/index.html" , verified=False)
+        return render_template(path + "index.html" , verified=False)
 
 @app.route("/searchRoom")
 def searchRoom():
@@ -21,7 +24,7 @@ def searchRoom():
 @app.route("/search")
 def search():
     if 'logged_in' in session and session['logged_in']:
-        return render_template(os.path.dirname(__file__) + "/templates/search.html")
+        return render_template(path + "search.html")
     else:
         return redirect("/denied")
 
@@ -41,7 +44,7 @@ def getLogin():
 @app.route("/directions")
 def directions():
     if 'logged_in' in session:
-        return render_template(os.path.dirname(__file__) + "/templates/drawTest.html")
+        return render_template(path + "drawTest.html")
     else:
         return redirect("/")
 
