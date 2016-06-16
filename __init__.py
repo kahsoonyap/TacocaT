@@ -79,9 +79,10 @@ def drawPath():
     path = query.findPath(source,dest)
     return json.dumps(path)
 
+app.secret_key= os.urandom(24)
+print app.secret_key
 if __name__ == "__main__":
     app.debug=True
-    app.secret_key= os.urandom(24)
     #app.run(host='0.0.0.0',port=8000)
     app.run()
         
