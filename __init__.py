@@ -5,6 +5,8 @@ import query
 app = Flask(__name__)
 @app.route("/",methods=['GET','POST'])
 def login():
+    A = os.path.dirname(__file__)
+    print A 
     if 'logged_in' in session and session['logged_in']:
         return render_template("index.html", verified=True)
     else:
@@ -77,5 +79,5 @@ def drawPath():
 if __name__ == "__main__":
     app.debug=True
     app.secret_key="sikewrongkey"
-    #app.run(host='0.0.0.0',port=8000)
-    app.run()
+    app.run(host='0.0.0.0',port=8000)
+    #app.run()

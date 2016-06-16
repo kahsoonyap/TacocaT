@@ -1,8 +1,8 @@
 import sqlite3
 import math
 import json
-
-DB_NAME = "floorPlans.db"
+import os.path
+DB_NAME = os.path.dirname(__file__) + "/floorPlans.db"
 
 def getXY(room ,floor):
     if (room < 100):
