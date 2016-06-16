@@ -2,14 +2,15 @@ from flask import Flask, render_template, request, session, redirect,url_for, Ma
 import json
 import query
 import os.path
+import os
 
 app = Flask(__name__)
 @app.route("/",methods=['GET','POST'])
 def login():
     if 'logged_in' in session and session['logged_in']:
-        return render_template("index.html", verified=True)
+        return render_template(os.path.dirname(__file__) + "/templates/index.html", verified=True)
     else:
-        return render_template("index.html" , verified=False)
+        return render_template(os.path.dirname(__file__) + "/templates/index.html" , verified=False)
 
 @app.route("/searchRoom")
 def searchRoom():
@@ -20,7 +21,7 @@ def searchRoom():
 @app.route("/search")
 def search():
     if 'logged_in' in session and session['logged_in']:
-        return render_template("search.html")
+        return render_template(os.path.dirname(__file__) + "/templates/search.html")
     else:
         return redirect("/denied")
 
@@ -40,7 +41,7 @@ def getLogin():
 @app.route("/directions")
 def directions():
     if 'logged_in' in session:
-        return render_template("drawTest.html")
+        return render_template(os.path.dirname(__file__) + "/templates/drawTest.html")
     else:
         return redirect("/")
 
@@ -58,7 +59,7 @@ def logout():
 
 @app.route("/denied")
 def denied():
-    return render_template("index.html", error="You are not a Stuyvesant High School Student. Please Contact school personnel or offical for access")
+    return render_template(os.path.dirname(__file__) + "/templates/index.html", error="You are not a Stuyvesant High School Student. Please Contact school personnel or offical for access")
 
 @app.route("/getXY")
 def getXYCoord():
@@ -77,6 +78,7 @@ def drawPath():
 
 if __name__ == "__main__":
     app.debug=True
-    app.secret_key="sikewrongkey"
+    app.secret_key= os.urandom(24)
     #app.run(host='0.0.0.0',port=8000)
     app.run()
+        
