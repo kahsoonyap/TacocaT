@@ -1,12 +1,11 @@
 from flask import Flask, render_template, request, session, redirect,url_for, Markup
 import json
 import query
+import os.path
 
 app = Flask(__name__)
 @app.route("/",methods=['GET','POST'])
 def login():
-    A = os.path.dirname(__file__)
-    print A 
     if 'logged_in' in session and session['logged_in']:
         return render_template("index.html", verified=True)
     else:
@@ -23,7 +22,7 @@ def search():
     if 'logged_in' in session and session['logged_in']:
         return render_template("search.html")
     else:
-        return redirect(url_for("denied"))
+        return redirect("/denied")
 
 @app.route("/getFloor")
 def getFloor():
@@ -43,18 +42,18 @@ def directions():
     if 'logged_in' in session:
         return render_template("drawTest.html")
     else:
-        return redirect(url_for("login"))
+        return redirect("/")
 
 @app.route("/loggedin")
 def loggedin():
     session['logged_in'] = True;
     
-    return redirect(url_for("login"))
+    return redirect("/")
 
 @app.route("/logout")
 def logout():
     session['logged_in'] = False;
-    return redirect(url_for("login"))
+    return redirect("/")
 
 
 @app.route("/denied")
@@ -79,5 +78,5 @@ def drawPath():
 if __name__ == "__main__":
     app.debug=True
     app.secret_key="sikewrongkey"
-    app.run(host='0.0.0.0',port=8000)
-    #app.run()
+    #app.run(host='0.0.0.0',port=8000)
+    app.run()
